@@ -68,16 +68,23 @@
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body { font-family: var(--font-family); background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 16px; transition: background-color 0.3s ease, color 0.3s ease; }
         
-        .main-wrapper { width: 100%; max-width: 1050px; display: grid; grid-template-columns: 280px 1fr; gap: 20px; }
+        .main-wrapper { width: 100%; max-width: 1050px; display: grid; grid-template-columns: 280px 1fr; gap: 20px; align-items: start; }
         @media(max-width: 850px) { .main-wrapper { grid-template-columns: 1fr; } }
 
         .container { width: 100%; display: flex; flex-direction: column; gap: 16px; }
         
-        /* Sol Arşiv Paneli */
-        .sidebar-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 12px; box-shadow: var(--shadow); height: fit-content; max-height: 80vh; overflow-y: auto; }
+        /* Sol Arşiv Paneli - Sabit Yükseklik ve Kaydırma Çubuğu */
+        .sidebar-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 12px; box-shadow: var(--shadow); position: sticky; top: 16px; }
         .sidebar-title { font-size: 1rem; font-weight: 700; color: var(--accent-color); padding-bottom: 8px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 6px; }
         
-        .archive-list { display: flex; flex-direction: column; gap: 6px; }
+        .archive-list { display: flex; flex-direction: column; gap: 6px; max-height: 480px; overflow-y: auto; padding-right: 4px; }
+        
+        /* Özel Scrollbar Tasarımı */
+        .archive-list::-webkit-scrollbar { width: 6px; }
+        .archive-list::-webkit-scrollbar-track { background: transparent; }
+        .archive-list::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+        .archive-list::-webkit-scrollbar-thumb:hover { background: var(--accent-color); }
+
         .archive-item { text-align: left; background: var(--btn-bg); border: 1px solid var(--border-color); padding: 10px 12px; border-radius: 10px; cursor: pointer; color: var(--text-color); transition: 0.2s; display: flex; flex-direction: column; gap: 2px; }
         .archive-item:hover, .archive-item.active { border-color: var(--accent-color); background: var(--btn-hover); }
         .archive-date { font-size: 0.75rem; color: var(--accent-color); font-weight: 600; }
@@ -116,7 +123,7 @@
 <div class="main-wrapper">
     <!-- SOL ARŞİV MENÜSÜ -->
     <div class="sidebar-card">
-        <div class="sidebar-title">📚 Hutbe Arşivi (10 Hafta)</div>
+        <div class="sidebar-title">📚 Hutbe Arşivi</div>
         <div class="archive-list" id="archive-list">
             <!-- JavaScript ile doldurulacak -->
         </div>
@@ -154,7 +161,6 @@
 <div class="footer">© Ayetin Vakti • <span>Huzur ve İbadet Rehberliğiniz</span></div>
 
 <script>
-    // 10 Haftalık Hutbe Arşivi Veritabanı
     const hutbelerData = [
         {
             id: "28-agustos-2026",
@@ -327,7 +333,7 @@
 
     window.onload = () => {
         initTheme();
-        loadHutbe(hutbelerData[0].id); // En güncel hutbeyi varsayılan aç
+        loadHutbe(hutbelerData[0].id);
     };
 </script>
 </body>
