@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Haftanın Hutbesi | Ayetin Vakti</title>
+    <meta name="theme-color" content="#10b981">
+    
+    <script>
+        // Tema ve Dil Kontrolü (Titremeyi önler)
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+        }
+
+        const savedAccent = localStorage.getItem('custom_accent');
+        const savedText = localStorage.getItem('custom_text');
+
+        if (savedAccent) document.documentElement.style.setProperty('--accent-color', savedAccent);
+        if (savedText) document.documentElement.style.setProperty('--text-color', savedText);
+
+        const savedBg = localStorage.getItem('custom_bg');
+        if (savedBg && savedTheme !== 'light') {
+            document.documentElement.style.setProperty('--bg-color', savedBg);
+            document.documentElement.style.setProperty('--card-bg', savedBg);
+        }
+
+        const currentLang = localStorage.getItem('user_lang') || 'tr';
+        if (currentLang === 'ar') {
+            document.documentElement.setAttribute('dir', 'rtl');
+        } else {
+            document.documentElement.setAttribute('dir', 'ltr');
+        }
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --accent-color: #10b981;
+            --accent-hover: #047857;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --btn-bg: rgba(255, 255, 255, 0.05);
+            --btn-hover: rgba(255, 255, 255, 0.1);
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f1f5f9 !important;
+            --card-bg: #ffffff !important;
+            --accent-color: #059669 !important;
+            --accent-hover: #047857 !important;
+            --text-color: #0f172a !important;
+            --text-muted: #64748b !important;
+            --border-color: #cbd5e1 !important;
+            --btn-bg: #f8fafc !important;
+            --btn-hover: #e2e8f0 !important;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body { font-family: var(--font-family); background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 16px; transition: background-color 0.3s ease, color 0.3s ease; }
+        .container { width: 100%; max-width: 650px; display: flex; flex-direction: column; gap: 16px; }
+        
+        .navbar { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; box-shadow: var(--shadow); transition: 0.3s; }
+        [dir="rtl"] .navbar { flex-direction: row-reverse; }
+
+        .circle-btn { width: 42px; height: 42px; border-radius: 50%; background: var(--btn-bg); border: 1px solid var(--border-color); color: var(--text-color); display: flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; font-size: 1.2rem; transition: 0.2s; }
+        .circle-btn:hover { border-color: var(--accent-color); color: var(--accent-color); background: var(--btn-hover); }
+        .app-title { font-size: 1.1rem; font-weight: 700; color: var(--accent-color); text-align: center; }
+
+        .content-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 18px; padding: 22px; display: flex; flex-direction: column; gap: 16px; box-shadow: var(--shadow); transition: 0.3s; }
+        .card-header-flex { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; }
+        .card-title { font-size: 1.15rem; font-weight: 700; color: var(--accent-color); display: flex; align-items: center; gap: 8px; }
+        .date-badge { font-size: 0.8rem; background: var(--btn-bg); border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 20px; color: var(--text-muted); font-weight: 600; }
+
+        .hutbe-meta { display: flex; flex-direction: column; gap: 6px; }
+        .hutbe-main-title { font-size: 1.1rem; font-weight: 700; color: var(--text-color); line-height: 1.4; }
+        
+        .hutbe-body { font-size: 0.92rem; color: var(--text-muted); line-height: 1.7; display: flex; flex-direction: column; gap: 12px; }
+        .hutbe-body p { text-align: justify; }
+
+        .quote-box { background: var(--btn-bg); border-left: 4px solid var(--accent-color); padding: 12px 16px; border-radius: 0 12px 12px 0; font-style: italic; color: var(--text-color); font-size: 0.9rem; }
+        [dir="rtl"] .quote-box { border-left: none; border-right: 4px solid var(--accent-color); border-radius: 12px 0 0 12px; }
+
+        .external-link-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; background: var(--accent-color); color: #fff; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 0.9rem; box-shadow: var(--shadow); transition: 0.2s; margin-top: 6px; }
+        .external-link-btn:hover { background: var(--accent-hover); }
+
+        .footer { margin: 20px 0; text-align: center; font-size: 0.85rem; color: var(--text-muted); }
+        .footer span { color: var(--accent-color); font-weight: 600; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="navbar">
+        <a href="../" class="circle-btn" title="Ana Sayfaya Dön">←</a>
+        <div class="app-title">Haftanın Hutbesi</div>
+        <button class="circle-btn" onclick="toggleTheme()" id="theme-btn" title="Tema Değiştir">☀️</button>
+    </header>
+
+    <div class="content-card">
+        <div class="card-header-flex">
+            <div class="card-title">📜 Cuma Hutbesi</div>
+            <div class="date-badge" id="hutbe-date">4 Eylül 2026</div>
+        </div>
+
+        <div class="hutbe-meta">
+            <div class="hutbe-main-title" id="hutbe-title">İslam'da Bilgi, Ahlak ve Sorumluluk Bilinci</div>
+        </div>
+
+        <div class="hutbe-body">
+            <div class="quote-box">
+                "Hiç bilenlerle bilmeyenler bir olur kalkar mı? Şüphesiz ancak akıl sahipleri bunu idrak edebilir." (Zümer Suresi, 9)
+            </div>
+            
+            <p><strong>Muhterem Müminler!</strong></p>
+            <p>Yüce dinimiz İslam, ilme, ahlaka ve insanın sorumluluk bilincine büyük bir değer vermiştir. İnsan, yaradılış gayesine uygun olarak dünyayı imar ederken hem Rabbine karşı kulluk bilincini kuşanmalı hem de topluma karşı güzel ahlakıyla örnek olmalıdır.</p>
+            
+            <p>Bilgi, insanı cehaletten kurtaran, hakikat ile batılı ayıran en büyük rehberdir. Ancak elde edilen ilmin ahlakla ve vicdanla taçlandırılması gerekir. Ahlaktan yoksun bir ilim, bireye ve topluma faydadan ziyade zarar getirebilir. Peygamber Efendimiz (s.a.v.) bir hadisi şeriflerinde şöyle buyurmaktadır: <em>"Sizin en hayırlınız, kuranı öğrenen ve öğreteninizdir"</em> buyururken aynı zamanda güzel ahlakın tamamlayıcısı olduğumuzu da hatırlatmıştır.</p>
+            
+            <p><strong>Aziz Kardeşlerim!</strong></p>
+            <p>Bugün bizlere düşen görev; nesillerimize hem milli ve manevi değerlerimizi aktarmak hem de çağın gerektirdiği donanımla ahlaklı bireyler olarak yetişmelerini sağlamaktır. Hayatımızın her anında sorumluluk bilinciyle hareket edelim.</p>
+        </div>
+
+        <a href="https://www.diyanet.gov.tr" target="_blank" class="external-link-btn">
+            🔗 Diyanet İşleri Başkanlığı Orijinal Kaynak
+        </a>
+    </div>
+</div>
+
+<div class="footer">© Ayetin Vakti • <span>Huzur ve İbadet Rehberliğiniz</span></div>
+
+<script>
+    function initTheme() {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        applyTheme(savedTheme);
+    }
+
+    function toggleTheme() {
+        const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+        const newTheme = isLight ? 'dark' : 'light';
+        applyTheme(newTheme);
+    }
+
+    function applyTheme(theme) {
+        const btn = document.getElementById('theme-btn');
+        if (theme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+            if (btn) btn.innerHTML = '🌙'; 
+            localStorage.setItem('theme', 'light');
+        } else {
+            document.documentElement.removeAttribute('data-theme');
+            if (btn) btn.innerHTML = '☀️'; 
+            localStorage.setItem('theme', 'dark');
+        }
+    }
+
+    window.onload = () => {
+        initTheme();
+    };
+</script>
+</body>
+</html>
