@@ -73,13 +73,15 @@
 
         .container { width: 100%; display: flex; flex-direction: column; gap: 16px; }
         
-        /* Sol Arşiv Paneli - Sabit Yükseklik ve Kaydırma Çubuğu */
-        .sidebar-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 12px; box-shadow: var(--shadow); position: sticky; top: 16px; }
-        .sidebar-title { font-size: 1rem; font-weight: 700; color: var(--accent-color); padding-bottom: 8px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 6px; }
+        /* Sol Arşiv Paneli - Tam 3 Hutbe Sığacak Şekilde Ayarlandı */
+        .sidebar-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: var(--shadow); position: sticky; top: 16px; }
         
-        .archive-list { display: flex; flex-direction: column; gap: 6px; max-height: 480px; overflow-y: auto; padding-right: 4px; }
+        /* Başlığı kutunun içinde sabit tuttuk, aradan çıkmıyor */
+        .sidebar-title { font-size: 1rem; font-weight: 700; color: var(--accent-color); padding-bottom: 8px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 6px; background-color: var(--card-bg); z-index: 2; }
         
-        /* Özel Scrollbar Tasarımı */
+        /* max-height yaklaşık 3 hutbe sığacak şekilde sınırlandı */
+        .archive-list { display: flex; flex-direction: column; gap: 6px; max-height: 250px; overflow-y: auto; padding-right: 4px; }
+        
         .archive-list::-webkit-scrollbar { width: 6px; }
         .archive-list::-webkit-scrollbar-track { background: transparent; }
         .archive-list::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
