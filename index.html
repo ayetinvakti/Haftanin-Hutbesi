@@ -68,18 +68,29 @@
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body { font-family: var(--font-family); background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 16px; transition: background-color 0.3s ease, color 0.3s ease; }
         
-        .main-wrapper { width: 100%; max-width: 1050px; display: grid; grid-template-columns: 280px 1fr; gap: 20px; align-items: start; }
-        @media(max-width: 850px) { .main-wrapper { grid-template-columns: 1fr; } }
+        .main-wrapper { width: 100%; max-width: 1050px; display: grid; grid-template-columns: 280px 1fr; gap: 20px; align-items: start; transition: 0.3s ease; }
+        
+        /* Menü gizlendiğinde grid yapısını tek kolona düşürüp içerik kartını ortalıyoruz */
+        .main-wrapper.sidebar-closed { grid-template-columns: 1fr; max-width: 750px; }
+        .main-wrapper.sidebar-closed .sidebar-card { display: none; }
+
+        @media(max-width: 850px) { 
+            .main-wrapper { grid-template-columns: 1fr; }
+            .main-wrapper.sidebar-closed .sidebar-card { display: none; }
+        }
 
         .container { width: 100%; display: flex; flex-direction: column; gap: 16px; }
         
-        /* Sol Arşiv Paneli - Tam 3 Hutbe Sığacak Şekilde Ayarlandı */
+        /* Sol Arşiv Paneli */
         .sidebar-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: var(--shadow); position: sticky; top: 16px; }
         
-        /* Başlığı kutunun içinde sabit tuttuk, aradan çıkmıyor */
-        .sidebar-title { font-size: 1rem; font-weight: 700; color: var(--accent-color); padding-bottom: 8px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; gap: 6px; background-color: var(--card-bg); z-index: 2; }
+        .sidebar-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; background-color: var(--card-bg); z-index: 2; }
+        .sidebar-title { font-size: 1rem; font-weight: 700; color: var(--accent-color); display: flex; align-items: center; gap: 6px; }
         
-        /* max-height yaklaşık 3 hutbe sığacak şekilde sınırlandı */
+        .collapse-btn { background: var(--btn-bg); border: 1px solid var(--border-color); color: var(--text-color); width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
+        .collapse-btn:hover { border-color: var(--accent-color); color: var(--accent-color); background: var(--btn-hover); }
+
+        /* max-height yaklaşık 3 hutbe sığacak şekilde */
         .archive-list { display: flex; flex-direction: column; gap: 6px; max-height: 250px; overflow-y: auto; padding-right: 4px; }
         
         .archive-list::-webkit-scrollbar { width: 6px; }
@@ -97,11 +108,20 @@
 
         .circle-btn { width: 42px; height: 42px; border-radius: 50%; background: var(--btn-bg); border: 1px solid var(--border-color); color: var(--text-color); display: flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; font-size: 1.2rem; transition: 0.2s; }
         .circle-btn:hover { border-color: var(--accent-color); color: var(--accent-color); background: var(--btn-hover); }
+        
+        .nav-left-group { display: flex; align-items: center; gap: 8px; }
+        .toggle-sidebar-trigger { display: none; } /* Normalde ekranda gizli, menü kapalıyken sol üste açma butonu gelebilir veya navbar'dan yönetilir */
+        
         .app-title { font-size: 1.1rem; font-weight: 700; color: var(--accent-color); text-align: center; }
 
         .content-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 18px; padding: 22px; display: flex; flex-direction: column; gap: 16px; box-shadow: var(--shadow); transition: 0.3s; }
         .card-header-flex { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; flex-wrap: wrap; gap: 8px; }
         .card-title { font-size: 1.15rem; font-weight: 700; color: var(--accent-color); display: flex; align-items: center; gap: 8px; }
+        
+        .title-actions { display: flex; align-items: center; gap: 8px; }
+        .show-archive-btn { background: var(--btn-bg); border: 1px solid var(--border-color); color: var(--accent-color); padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; cursor: pointer; display: none; transition: 0.2s; }
+        .show-archive-btn:hover { background: var(--btn-hover); border-color: var(--accent-color); }
+
         .date-badge { font-size: 0.8rem; background: var(--btn-bg); border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 20px; color: var(--text-muted); font-weight: 600; }
 
         .hutbe-meta { display: flex; flex-direction: column; gap: 6px; }
@@ -122,10 +142,13 @@
 </head>
 <body>
 
-<div class="main-wrapper">
+<div class="main-wrapper" id="main-wrapper">
     <!-- SOL ARŞİV MENÜSÜ -->
-    <div class="sidebar-card">
-        <div class="sidebar-title">📚 Hutbe Arşivi</div>
+    <div class="sidebar-card" id="sidebar-card">
+        <div class="sidebar-header">
+            <div class="sidebar-title">📚 Hutbe Arşivi</div>
+            <button class="collapse-btn" onclick="toggleSidebar()" title="Menüyü Gizle">✕</button>
+        </div>
         <div class="archive-list" id="archive-list">
             <!-- JavaScript ile doldurulacak -->
         </div>
@@ -134,14 +157,20 @@
     <!-- SAĞ ANA İÇERİK ALANI -->
     <div class="container">
         <header class="navbar">
-            <a href="../" class="circle-btn" title="Ana Sayfaya Dön">←</a>
+            <div class="nav-left-group">
+                <a href="../" class="circle-btn" title="Ana Sayfaya Dön">←</a>
+                <button class="circle-btn" onclick="toggleSidebar()" id="menu-open-btn" title="Arşivi Aç" style="display:none;">📚</button>
+            </div>
             <div class="app-title">Haftanın Hutbesi</div>
             <button class="circle-btn" onclick="toggleTheme()" id="theme-btn" title="Tema Değiştir">☀️</button>
         </header>
 
         <div class="content-card">
             <div class="card-header-flex">
-                <div class="card-title">📜 Cuma Hutbesi</div>
+                <div class="card-title">
+                    📜 Cuma Hutbesi
+                    <button class="show-archive-btn" id="show-archive-inline" onclick="toggleSidebar()">📚 Arşivi Göster</button>
+                </div>
                 <div class="date-badge" id="hutbe-date">Yükleniyor...</div>
             </div>
 
@@ -277,6 +306,23 @@
         }
     ];
 
+    function toggleSidebar() {
+        const wrapper = document.getElementById('main-wrapper');
+        const openBtn = document.getElementById('menu-open-btn');
+        const inlineBtn = document.getElementById('show-archive-inline');
+        
+        wrapper.classList.toggle('sidebar-closed');
+        
+        const isClosed = wrapper.classList.contains('sidebar-closed');
+        if (isClosed) {
+            if (openBtn) openBtn.style.display = 'flex';
+            if (inlineBtn) inlineBtn.style.display = 'inline-block';
+        } else {
+            if (openBtn) openBtn.style.display = 'none';
+            if (inlineBtn) inlineBtn.style.display = 'none';
+        }
+    }
+
     function renderArchiveList(activeId) {
         const listContainer = document.getElementById('archive-list');
         listContainer.innerHTML = '';
@@ -288,7 +334,13 @@
                 <span class="archive-date">${hutbe.tarih}</span>
                 <span class="archive-name">${hutbe.baslik}</span>
             `;
-            item.onclick = () => loadHutbe(hutbe.id);
+            item.onclick = () => {
+                loadHutbe(hutbe.id);
+                // Hutbe seçildiğinde telefonda veya ekranda otomatik kapanması için (istersen bu satırı silebilirsin, şu an tıklandığı an kapanıyor):
+                if (window.innerWidth <= 850) {
+                    toggleSidebar();
+                }
+            };
             listContainer.appendChild(item);
         });
     }
@@ -336,6 +388,7 @@
     window.onload = () => {
         initTheme();
         loadHutbe(hutbelerData[0].id);
+        // İlk açılışta mobilde direkt geniş ekranda okunsun istersen buraya toggleSidebar() ekleyebilirsin, şu an açık başlıyor.
     };
 </script>
 </body>
