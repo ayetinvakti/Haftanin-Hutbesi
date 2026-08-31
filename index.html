@@ -70,7 +70,6 @@
         
         .main-wrapper { width: 100%; max-width: 1050px; display: grid; grid-template-columns: 280px 1fr; gap: 20px; align-items: start; transition: 0.3s ease; }
         
-        /* Menü gizlendiğinde grid yapısını tek kolona düşürüp içerik kartını ortalıyoruz */
         .main-wrapper.sidebar-closed { grid-template-columns: 1fr; max-width: 750px; }
         .main-wrapper.sidebar-closed .sidebar-card { display: none; }
 
@@ -81,7 +80,6 @@
 
         .container { width: 100%; display: flex; flex-direction: column; gap: 16px; }
         
-        /* Sol Arşiv Paneli */
         .sidebar-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: var(--shadow); position: sticky; top: 16px; }
         
         .sidebar-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; background-color: var(--card-bg); z-index: 2; }
@@ -90,7 +88,6 @@
         .collapse-btn { background: var(--btn-bg); border: 1px solid var(--border-color); color: var(--text-color); width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
         .collapse-btn:hover { border-color: var(--accent-color); color: var(--accent-color); background: var(--btn-hover); }
 
-        /* max-height yaklaşık 3 hutbe sığacak şekilde */
         .archive-list { display: flex; flex-direction: column; gap: 6px; max-height: 250px; overflow-y: auto; padding-right: 4px; }
         
         .archive-list::-webkit-scrollbar { width: 6px; }
@@ -110,15 +107,12 @@
         .circle-btn:hover { border-color: var(--accent-color); color: var(--accent-color); background: var(--btn-hover); }
         
         .nav-left-group { display: flex; align-items: center; gap: 8px; }
-        .toggle-sidebar-trigger { display: none; } /* Normalde ekranda gizli, menü kapalıyken sol üste açma butonu gelebilir veya navbar'dan yönetilir */
-        
         .app-title { font-size: 1.1rem; font-weight: 700; color: var(--accent-color); text-align: center; }
 
         .content-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 18px; padding: 22px; display: flex; flex-direction: column; gap: 16px; box-shadow: var(--shadow); transition: 0.3s; }
         .card-header-flex { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; flex-wrap: wrap; gap: 8px; }
         .card-title { font-size: 1.15rem; font-weight: 700; color: var(--accent-color); display: flex; align-items: center; gap: 8px; }
         
-        .title-actions { display: flex; align-items: center; gap: 8px; }
         .show-archive-btn { background: var(--btn-bg); border: 1px solid var(--border-color); color: var(--accent-color); padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; cursor: pointer; display: none; transition: 0.2s; }
         .show-archive-btn:hover { background: var(--btn-hover); border-color: var(--accent-color); }
 
@@ -200,8 +194,9 @@
             ayet: "“Ey iman edenler! Sabredin; düşman karşısında sebat gösterin; cihad için hazırlıklı ve uyanık olun ve Allah'tan korkun ki başarıya erişebilesiniz.” (Âl-i İmrân, 3/200)",
             metin: [
                 "Muhterem Müslümanlar!",
-                "Vatan sevgisi medeniyetimizde imandan bir parça olarak görülmüştür. Tarih boyunca gittiği her yere huzur ve barışı götürmüş bir milletin evlatları olarak, bizler vatanımızın kadrini kıymetini bilmek zorundayız.",
-                "Aziz vatanımız; şehitlerimizin kanıyla sulanmış mukaddes bir emanettir. Bu emanete sahip çıkmak, işimizi en iyi şekilde yapmak ve birliğimizi diri tutmakla mümkündür."
+                "İslam dini, insanın doğup büyüdüğü, ezanların okunduğu, bayrağın dalgalandığı ve inancını özgürce yaşayabildiği toprak parçasını yani vatanı, imanla ve mukaddesatla özdeşleştirmiştir. Tarih boyunca milletimiz, vatanı canından üstün bilmiş, bağımsızlığı uğruna en ağır bedelleri ödemekten çekinmemiştir.",
+                "Aziz cemaat! Vatan sevgisi sadece coğrafi bir bağlılık değildir; aynı zamanda o topraklarda yaşayan her bireye karşı sorumluluk duymak, birliği, dirliği ve kardeşliği korumak demektir. Bugün bizlere düşen en büyük vazife, şehitlerimizin emaneti olan bu cennet vatanı her alanda ileri taşımak, fitne ve fesat odaklarına karşı uyanık olmaktır.",
+                "Yüce Rabbimiz vatanımızı, ezanımızı ve bayrağımızı kıyamete kadar payidar eylesin. Birlik ve beraberliğimize zarar vermek isteyenlere fırsat vermesin."
             ],
             link: "https://www.diyanethaber.com.tr"
         },
@@ -209,10 +204,12 @@
             id: "21-agustos-2026",
             tarih: "21 Ağustos 2026",
             baslik: "Mevlid-i Nebi ve Peygamber Sevgisi",
-            ayet: "“Ey Peygamber! Biz seni bir şahit, bir müjdeleyici, bir uyarıcı olarak gönderdik.” (Ahzâb, 33/45)",
+            ayet: "“Ey Peygamber! Biz seni bir şahit, bir müjdeleyici, bir uyarıcı olarak gönderdik. Allah’ın izniyle kendi yoluna çağıran bir davetçi ve aydınlatıcı bir kandil olarak gönderdik.” (Ahzâb, 33/45-46)",
             metin: [
                 "Muhterem Müminler!",
-                "Sevgili Peygamberimiz Hz. Muhammed (s.a.s), insanlığı cehaletin karanlığından İslam'ın aydınlığına çıkaran rahmet elçisidir. O'nun sünnetini anlamak ve hayatımıza tatbik etmek en büyük rehberimizdir."
+                "Alemlere rahmet olarak gönderilen Sevgili Peygamberimiz Hz. Muhammed Mustafa (s.a.s.) insanlığın adalet, merhamet ve şefkat bulduğu kutlu bir çığır açmıştır. O, inananlar için en güzel örnek (üsve-i hasene) olarak nitelendirilmiştir.",
+                "Peygamber sevgisi, O'nun sünnetini hayatımıza rehber edinmekle, ahlakını kuşanmakla ve insanlığa sunduğu evrensel mesajları yaşamakla gerçek anlamını bulur. Sadece adını anmak yetmez; O'nun dürüstlüğünü, merhametini, mazlumun yanında duruşunu ve emanete sadakatini örnek almalıyız.",
+                "Mevlid-i Nebi, O'nun ahlakıyla yeniden hallenmemize, kalplerimizi ve evlerimizi O'nun nuruyla aydınlatmamıza vesile olsun."
             ],
             link: "https://www.diyanethaber.com.tr"
         },
@@ -223,7 +220,9 @@
             ayet: "“Sana yetimler hakkında soruyorlar. De ki: Onları iyi yetiştirmek ve korumak hayırlıdır.” (Bakara, 2/220)",
             metin: [
                 "Aziz Kardeşlerim!",
-                "İslam medeniyeti, kimsesizlerin kimsesi olmayı öğütler. Yetimleri korumak, onların başını okşamak ve toplumsal dayanışmayı büyütmek her müslümanın temel vazifesidir."
+                "İslam dini kimsesizlerin, zayıfların ve özellikle yetimlerin korunmasını dinin en temel direklerinden biri saymıştır. Sevgili Peygamberimiz (s.a.s.) kendi elleriyle yetimlere hamilik yapmış, onların başını okşayanın büyük mükâfatlar alacağını müjdelemiştir.",
+                "Toplumsal vicdanın en hassas noktası yetimlerdir. Bir toplumda yetimlerin yüzü gülüyorsa, o toplumda rahmet ve bereket eksik olmaz. Onların sadece maddi ihtiyaçlarını karşılamak yetmez; eğitimleriyle, ruhsal gelişimleriyle yakından ilgilenmek ve kendilerini yalnız hissettirmemek hepimizin boynunun borcudur.",
+                "Yüce Allah, bizleri yetimlerin ve kimsesizlerin koruyucusu eylesin, ellerimizi onların üzerinden eksik etmesin."
             ],
             link: "https://www.diyanet.tv"
         },
@@ -231,10 +230,12 @@
             id: "07-agustos-2026",
             tarih: "7 Ağustos 2026",
             baslik: "İlim ve Hikmet Peşinde Bir Ömür",
-            ayet: "“Hiç bilenlerle bilmeyenler bir olur mu? Şüphesiz ancak akıl sahipleri bunu idrak eder.” (Zümer, 39/9)",
+            ayet: "“De ki: Hiç bilenlerle bilmeyenler bir olur mu? Şüphesiz ancak akıl sahipleri bunu idrak eder.” (Zümer, 39/9)",
             metin: [
                 "Muhterem Müslümanlar!",
-                "Yüce dinimiz ilme ve okumaya büyük bir değer vermiştir. Bilgi, insanı hakikate ulaştıran en güvenli yoldur. İlmi ahlakla bütünleştirdiğimizde toplumsal huzur kendiliğinden gelecektir."
+                "İslam medeniyeti bir ilim medeniyetidir. 'Oku' emriyle başlayan inancımız, beşikten mezara kadar ilim öğrenmeyi her kadın ve erkek müslümana farz kılkıştır. İlim, insanı cehaletten kurtaran, hakikati ve Rabbini tanıtan en şerefli yoldur.",
+                "Bugün bilgiye ulaşmak çok kolay olsa da mühim olan bilgiyi hikmete ve ahlaka dönüştürebilmektir. Faydalı ilim peşinde koşan, topluma ve insanlığa değer üreten bireyler olmak dinimizin en temel emirlerindendir.",
+                "Rabbimiz, bizi ilmiyle amil olan, hikmetle hareket eden ve okuyan kullarından eylesin."
             ],
             link: "https://www.diyanethaber.com.tr"
         },
@@ -245,7 +246,9 @@
             ayet: "“Ey iman edenler! Kendinizi ve ailenizi yakıtı insanlar ve taşlar olan ateşten koruyun.” (Tahrîm, 66/6)",
             metin: [
                 "Kıymetli Cemaat!",
-                "Toplumun en küçük yapı taşı olan aile, huzurun ve güvenin yuvasıdır. Aile içi iletişimde sevgi, saygı ve merhameti hâkim kılmak sağlıklı bir geleceğin teminatıdır."
+                "Toplumun temel yapı taşı olan aile, huzurun, sevginin ve güvenin sığınağıdır. Eşler arasındaki karşılıklı saygı, sadakat ve merhamet bağı, yuvaların ömrünü uzatan en güçlü harçtır.",
+                "Günümüzde aile kurumuna yönelik dış ve iç tehditler artmış, neslimizin manevi emniyeti tehlikeye girmiştir. Evlatlarımızı sadece maddi olarak beslemek yetmez; onlara güzel ahlak, doğru inanç ve sorumluluk bilinci aşılamak ebeveyn olarak en büyük imtihanımızdır.",
+                "Allah Teâlâ yuvalarımıza huzur, evlatlarımıza sâlih birer ömür versin."
             ],
             link: "https://www.diyanethaber.com.tr"
         },
@@ -253,10 +256,12 @@
             id: "24-temmuz-2026",
             tarih: "24 Temmuz 2026",
             baslik: "İslam Medeniyetinde Adalet ve Hakkaniyet",
-            ayet: "“Şüphesiz Allah adaleti, iyiliği ve yakınlara yardım etmeyi emreder.” (Nahl, 16/90)",
+            ayet: "“Şüphesiz Allah adaleti, iyiliği ve yakınlara yardım etmeyi emreder; hayasızlığı, fenalığı ve azgınlığı da yasaklar.” (Nahl, 16/90)",
             metin: [
                 "Aziz Müminler!",
-                "Adalet, mülkün temelidir inancıyla hareket eden bir medeniyetin mensuplarıyız. Hayatın her alanında hakkaniyet ölçüleriyle hareket etmek adil bir dünya kurmanın anahtarıdır."
+                "Adalet, mülkün temelidir; yani devletin, toplumun ve insan ilişkilerinin ayakta kalabilmesi adalet terazisinin doğru tartılmasına bağlıdır. Hak sahibine hakkını teslim etmek, kimseye zulmetmemek inancımızın kuralıdır.",
+                "Müslüman, kimden gelirse gelsin haksızlığa karşı duran, kime karşı olursa olsun adaletten sapmayandır. Gerek aile içinde, gerek ticaret hayatında, gerekse sosyal ilişkilerde hakkaniyet ölçüsünden asla taviz verilmemelidir.",
+                "Mevlâ bizi adaletten, doğruluktan ve hak yolundan ayırmasın."
             ],
             link: "https://www.diyanethaber.com.tr"
         },
@@ -264,10 +269,12 @@
             id: "17-temmuz-2026",
             tarih: "17 Temmuz 2026",
             baslik: "Çevre Bilinci ve Emanete Sadakat",
-            ayet: "“Yeryüzünde fesat çıkarmayın.” (A‘râf, 7/56)",
+            ayet: "“Yeryüzünde fesat çıkarmayın (düzenini bozmayın). Allah, bozguncuları sevmez.” (A‘râf, 7/56)",
             metin: [
                 "Muhterem Müminler!",
-                "Dünya bize gelecek nesillerin emanetidir. Doğayı korumak, suyu israf etmemek ve çevremize duyarlı olmak dinimizin bize yüklediği ahlaki bir sorumluluktur."
+                "İçinde yaşadığımız bu kâinat, Yüce Allah'ın bize sunduğu kusursuz bir emanettir. Suları, ormanları, havayı ve bütün canlıları korumak dinimizin çevre ahlakının temelini oluşturur.",
+                "Bugün insanoğlunun eliyle doğanın dengesi bozulmakta, israf ve kirlilik artmaktadır. Peygamberimiz (s.a.s.) yarın kıyamet kopacağını bilseniz dahi elinizdeki fidanı dikin buyurarak çevreye olan hassasiyetin en güzel örneğini vermiştir.",
+                "Rabbimiz bizi tabiatı koruyan, israftan kaçınan ve emanete hıyanet etmeyen şuurlu kullarından eylesin."
             ],
             link: "https://www.diyanethaber.com.tr"
         },
@@ -275,10 +282,12 @@
             id: "10-temmuz-2026",
             tarih: "10 Temmuz 2026",
             baslik: "Dürüstlük ve Ticaret Ahlakı",
-            ayet: "“Ölçüyü ve tartıyı adaletle tam yapın.” (En'âm, 6/152)",
+            ayet: "“Ey iman edenler! Karşılıklı rızaya dayanan ticaret dışında mallarınızı aranızda haksızlıkla yemeyin.” (Nisâ, 4/29)",
             metin: [
                 "Değerli Kardeşlerim!",
-                "Ticarette ve günlük ilişkilerde dürüstlük, Müslüman'ın şiarıdır. Doğru sözlü olmak ve güvenilir kılınmak dünya ve ahirette insanı yüceltir."
+                "İslam, hayatın her alanında olduğu gibi kazanç ve ticaret kapılarında da dürüstlüğü ve adaleti şart koşmuştur. 'Bizi aldatan bizden değildir' buyuran Peygamber Efendimiz, hileli işlerden ve yalanla mal satmaktan ümmetini sakındırmıştır.",
+                "Helal kazanç, insanın hem kalbini hem de yuvasını bereketlendirir. Alın teriyle elde edilen az kazanç, haram yollardan kazanılan servetten çok daha hayırlıdır.",
+                "Yüce Allah rızkımızın helalini, bereketlisini nasip eylesin ve bizi her türlü hileden korusun."
             ],
             link: "https://www.diyanethaber.com.tr"
         },
@@ -286,10 +295,12 @@
             id: "03-temmuz-2026",
             tarih: "3 Temmuz 2026",
             baslik: "Şükür Bilinci ve Kanaatkârlık",
-            ayet: "“Şükrederseniz nimetimi elbette artırırım.” (İbrâhîm, 14/7)",
+            ayet: "“Rabbiniz şöyle buyurmuştu: Eğer şükrederseniz, elbette size nimetimi artırırım.” (İbrâhîm, 14/7)",
             metin: [
                 "Muhterem Müslümanlar!",
-                "Sahip olduğumuz sağlık, huzur ve rızık gibi nice nimetin kıymetini bilmek şükür ile mümkündür. Kanaatkâr olmak insanı iç huzura kavuşturur."
+                "İnsanoğlu genellikle elindekinin kıymetini kaybettikten sonra anlar. Sağlık, huzur, afiyet ve rızık gibi nice sayısız nimet karşısında gösterilecek en güzel tutum şükretmektir.",
+                "Şükür sadece dille yapılan 'elhamdülillah' demekten ibaret değildir; nimetin kıymetini bilmek, onu hak yolunda harcamak ve başkalarıyla paylaşmaktır. Kanaatkârlık ise insanın gözünü ve gönlünü doyuran en büyük zenginliktir.",
+                "Rabbimiz bizi nimetine şükreden, kalbi kanaatle dolu olan kullarından eylesin."
             ],
             link: "https://www.diyanethaber.com.tr"
         },
@@ -297,10 +308,12 @@
             id: "26-haziran-2026",
             tarih: "26 Haziran 2026",
             baslik: "Komşuluk Hakları ve Toplumsal Bağlar",
-            ayet: "“Allah'a ibadet edin... Yakın komşuya ve uzak komşuya iyilik edin.” (Nisâ, 4/36)",
+            ayet: "“Allah'a ibadet edin ve O'na hiçbir şeyi ortak koşmayın. Anne babaya, akrabaya, yetimlere, yoksullara, yakın komşuya, uzak komşuya... iyilik edin.” (Nisâ, 4/36)",
             metin: [
                 "Aziz Müminler!",
-                "Komşusu açken tok yatan bizden değildir buyuran bir Peygamberin ümmetiyiz. Komşuluk ilişkilerini canlı tutmak, dara düşenin yardımına koşmak toplumsal bağlarımızı güçlendirir."
+                "Modern hayatın getirdiği koşturmaca içerisinde bazen en yakınımızda kimin oturduğunu, halinin ne olduğunu unutur hale geldik. Oysa medeniyetimiz bir komşu medeniyetidir.",
+                "'Komşusu açken tok yatan bizden değildir' ölçüsüyle hareket eden bir inancın mensupları olarak, komşuluk ilişkilerini canlı tutmak, dar günlerinde yardımına koşmak ve sevinçlerini paylaşmak toplumsal bağlarımızın çimentosudur.",
+                "Yüce Allah komşularımızla olan ilişkilerimizi sevgi, saygı ve huzur temelinde daim eylesin."
             ],
             link: "https://www.diyanethaber.com.tr"
         }
@@ -336,7 +349,6 @@
             `;
             item.onclick = () => {
                 loadHutbe(hutbe.id);
-                // Hutbe seçildiğinde telefonda veya ekranda otomatik kapanması için (istersen bu satırı silebilirsin, şu an tıklandığı an kapanıyor):
                 if (window.innerWidth <= 850) {
                     toggleSidebar();
                 }
@@ -388,7 +400,6 @@
     window.onload = () => {
         initTheme();
         loadHutbe(hutbelerData[0].id);
-        // İlk açılışta mobilde direkt geniş ekranda okunsun istersen buraya toggleSidebar() ekleyebilirsin, şu an açık başlıyor.
     };
 </script>
 </body>
