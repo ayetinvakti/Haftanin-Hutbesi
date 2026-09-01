@@ -76,6 +76,31 @@
         @media(max-width: 850px) { 
             .main-wrapper { grid-template-columns: 1fr; }
             .main-wrapper.sidebar-closed .sidebar-card { display: none; }
+            /* Mobilde arşivi tam ekran modal/overlay yapıyoruz */
+            .sidebar-card { 
+                display: none; 
+                position: fixed !important; 
+                top: 50% !important; 
+                left: 50% !important; 
+                transform: translate(-50%, -50%) !important; 
+                width: 90% !important; 
+                max-width: 400px !important; 
+                max-height: 80vh !important; 
+                z-index: 1000 !important; 
+                box-shadow: 0 25px 50px rgba(0,0,0,0.7) !important;
+            }
+            .sidebar-card.mobile-open { display: flex !important; }
+            
+            /* Arka plan karartması */
+            .modal-backdrop {
+                display: none;
+                position: fixed;
+                top: 0; left: 0; width: 100%; height: 100%;
+                background: rgba(0, 0, 0, 0.6);
+                backdrop-filter: blur(4px);
+                z-index: 999;
+            }
+            .modal-backdrop.active { display: block; }
         }
 
         .container { width: 100%; display: flex; flex-direction: column; gap: 16px; }
@@ -88,7 +113,7 @@
         .collapse-btn { background: var(--btn-bg); border: 1px solid var(--border-color); color: var(--text-color); width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
         .collapse-btn:hover { border-color: var(--accent-color); color: var(--accent-color); background: var(--btn-hover); }
 
-        .archive-list { display: flex; flex-direction: column; gap: 6px; max-height: 250px; overflow-y: auto; padding-right: 4px; }
+        .archive-list { display: flex; flex-direction: column; gap: 6px; max-height: 350px; overflow-y: auto; padding-right: 4px; }
         
         .archive-list::-webkit-scrollbar { width: 6px; }
         .archive-list::-webkit-scrollbar-track { background: transparent; }
@@ -136,7 +161,9 @@
 </head>
 <body>
 
-<div class="main-wrapper" id="main-wrapper">
+<div class="modal-backdrop" id="modal-backdrop" onclick="toggleSidebar()"></div>
+
+<div class="main-wrapper sidebar-closed" id="main-wrapper">
     <!-- SOL ARŞİV MENÜSÜ -->
     <div class="sidebar-card" id="sidebar-card">
         <div class="sidebar-header">
@@ -153,7 +180,7 @@
         <header class="navbar">
             <div class="nav-left-group">
                 <a href="../" class="circle-btn" title="Ana Sayfaya Dön">←</a>
-                <button class="circle-btn" onclick="toggleSidebar()" id="menu-open-btn" title="Arşivi Aç" style="display:none;">📚</button>
+                <button class="circle-btn" onclick="toggleSidebar()" id="menu-open-btn" title="Arşivi Aç">📚</button>
             </div>
             <div class="app-title">Haftanın Hutbesi</div>
             <button class="circle-btn" onclick="toggleTheme()" id="theme-btn" title="Tema Değiştir">☀️</button>
@@ -163,7 +190,7 @@
             <div class="card-header-flex">
                 <div class="card-title">
                     📜 Cuma Hutbesi
-                    <button class="show-archive-btn" id="show-archive-inline" onclick="toggleSidebar()">📚 Arşivi Göster</button>
+                    <button class="show-archive-btn" id="show-archive-inline" onclick="toggleSidebar()" style="display:inline-block;">📚 Arşivi Göster</button>
                 </div>
                 <div class="date-badge" id="hutbe-date">Yükleniyor...</div>
             </div>
@@ -321,18 +348,14 @@
 
     function toggleSidebar() {
         const wrapper = document.getElementById('main-wrapper');
-        const openBtn = document.getElementById('menu-open-btn');
-        const inlineBtn = document.getElementById('show-archive-inline');
+        const sidebar = document.getElementById('sidebar-card');
+        const backdrop = document.getElementById('modal-backdrop');
         
-        wrapper.classList.toggle('sidebar-closed');
-        
-        const isClosed = wrapper.classList.contains('sidebar-closed');
-        if (isClosed) {
-            if (openBtn) openBtn.style.display = 'flex';
-            if (inlineBtn) inlineBtn.style.display = 'inline-block';
+        if (window.innerWidth <= 850) {
+            sidebar.classList.toggle('mobile-open');
+            backdrop.classList.toggle('active');
         } else {
-            if (openBtn) openBtn.style.display = 'none';
-            if (inlineBtn) inlineBtn.style.display = 'none';
+            wrapper.classList.toggle('sidebar-closed');
         }
     }
 
