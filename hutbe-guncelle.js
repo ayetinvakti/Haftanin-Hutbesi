@@ -45,13 +45,50 @@ export function parseList(html) {
     return out;
 }
 
-export function toParagraphs(text, baslik) {
+const TEXT_VERSION = 2; // Ayrıştırma yöntemi değişince artır: eski metinler yeniden çekilir
+const ARABIC = /[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/;
+const HEADING = /^[A-ZÇĞİÖŞÜÂÎÛ][^.?;:,“”"]{2,48}!$/;
+
+// pdftotext -raw çıktısından gövde paragrafları, dipnot kaynakları ve Arapça var/yok bilgisini çıkarır
+export function extractBody(text, baslik) {
     const norm = (s) => s.toLocaleLowerCase('tr').replace(/\s+/g, ' ').trim();
-    return text
-        .replace(/\r/g, '')
-        .split(/\n\s*\n/)
-        .map(p => p.replace(/\s*\n\s*/g, ' ').replace(/\s+/g, ' ').trim())
-        .filter(p => p && !/^\d+$/.test(p) && norm(p) !== norm(baslik));
+    let lines = text.replace(/\r/g, '').replace(/\f/g, '\n').split('\n').map(l => l.trim()).filter(Boolean);
+
+    // Arapça satırlar (ve aralarındaki noktalama artıkları) ayıklanır; PDF'ten Arapça güvenilir çıkmaz
+    let arapca = false;
+    const kept = [];
+    for (const l of lines) {
+        if (ARABIC.test(l)) { arapca = true; continue; }
+        if (/^[.:;,!?\-–—]+$/.test(l)) continue;
+        kept.push(l);
+    }
+    lines = kept.filter(l => !/^Tarih:\s*\d/.test(l) && !/^Din Hizmetleri Genel Müdürlüğü$/.test(l));
+
+    // Sondaki dipnotlar: tek başına rakam satırı + kaynak satırı ("1" / "Tirmizî, Birr, 15.")
+    const kaynaklar = [];
+    while (lines.length >= 2 && /^\d{1,2}$/.test(lines[lines.length - 2]) && lines[lines.length - 1].length < 120) {
+        kaynaklar.unshift(lines[lines.length - 1]);
+        lines.length -= 2;
+    }
+    // "1 Tirmizî, Birr, 15." biçimi
+    while (lines.length && /^\d{1,2}\s+\S.{2,100}$/.test(lines[lines.length - 1]) && /\d\.?$/.test(lines[lines.length - 1]) && lines[lines.length - 1].length < 100) {
+        kaynaklar.unshift(lines.pop().replace(/^\d{1,2}\s+/, ''));
+    }
+
+    // Satırları paragraflara topla; "Aziz Müminler!" gibi hitap satırları kendi başına paragraf olur
+    const paras = [];
+    let cur = [];
+    const flush = () => { if (cur.length) { paras.push(cur.join(' ')); cur = []; } };
+    for (let l of lines) {
+        // metin içine yapışmış dipnot numaralarını temizle: değildir.”1 Evet → değildir.” Evet
+        l = l.replace(/([”"])(\d{1,2})(?=\s|$)/g, '$1').replace(/([.!?;,])(\d{1,2})(?=\s+[A-Za-zÇĞİÖŞÜÂÎÛçğıöşüâîû“])/g, '$1');
+        if (HEADING.test(l) && norm(l) !== norm(baslik)) { flush(); paras.push(l); continue; }
+        if (norm(l) === norm(baslik)) continue;
+        cur.push(l);
+    }
+    flush();
+
+    return { paragraflar: paras.map(p => p.replace(/\s+/g, ' ').trim()).filter(Boolean), kaynaklar, arapca };
 }
 
 async function fetchPdfText(siraNo, cookie, baslik) {
@@ -63,10 +100,10 @@ async function fetchPdfText(siraNo, cookie, baslik) {
     const tmp = path.join(tmpdir(), `hutbe-${siraNo}-${Date.now()}.pdf`);
     await writeFile(tmp, buf);
     try {
-        const { stdout } = await run('pdftotext', ['-enc', 'UTF-8', tmp, '-']);
-        const paras = toParagraphs(stdout, baslik);
-        if (paras.join(' ').length < 200) throw new Error('Metin çok kısa çıktı');
-        return paras;
+        const { stdout } = await run('pdftotext', ['-raw', '-enc', 'UTF-8', tmp, '-']);
+        const body = extractBody(stdout, baslik);
+        if (body.paragraflar.join(' ').length < 200) throw new Error('Metin çok kısa çıktı');
+        return body;
     } finally {
         await unlink(tmp).catch(() => {});
     }
@@ -88,9 +125,14 @@ async function main() {
         const h = map.get(r.id) || { id: r.id, tarih: r.id };
         h.baslik = r.baslik;
         if (r.ses) h.ses = r.ses;
-        if (!(h.metin && h.metin.length) && r.siraNo !== null) {
+        const eksik = !(h.metin && h.metin.length) || h.metinSurum !== TEXT_VERSION;
+        if (eksik && r.siraNo !== null) {
             try {
-                h.metin = await fetchPdfText(r.siraNo, cookie, r.baslik);
+                const body = await fetchPdfText(r.siraNo, cookie, r.baslik);
+                h.metin = body.paragraflar;
+                h.kaynaklar = body.kaynaklar;
+                h.arapca = body.arapca;
+                h.metinSurum = TEXT_VERSION;
                 console.log(`Metin alındı: ${r.id} ${r.baslik}`);
             } catch (e) {
                 console.warn(`Metin alınamadı (${r.id} ${r.baslik}): ${e.message}`);
