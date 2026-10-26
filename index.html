@@ -150,6 +150,9 @@
         .quote-box { background: var(--btn-bg); border-left: 4px solid var(--accent-color); padding: 12px 16px; border-radius: 0 12px 12px 0; font-style: italic; color: var(--text-color); font-size: 0.9rem; }
         [dir="rtl"] .quote-box { border-left: none; border-right: 4px solid var(--accent-color); border-radius: 12px 0 0 12px; }
 
+        .hutbe-body p.hutbe-heading { font-weight: 700; color: var(--text-color); text-align: left; margin-top: 6px; }
+        .sources { font-size: 0.78rem; color: var(--text-muted); line-height: 1.6; border-top: 1px solid var(--border-color); padding-top: 10px; }
+
         .info-box { background: var(--btn-bg); border: 1px dashed var(--border-color); padding: 14px 16px; border-radius: 12px; font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; text-align: center; }
 
         .link-row { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -275,7 +278,16 @@
         let html = '';
         if (hutbe.ayet) html += `<div class="quote-box">${esc(hutbe.ayet)}</div>`;
         if (hutbe.metin && hutbe.metin.length) {
-            hutbe.metin.forEach(p => { html += `<p>${esc(p)}</p>`; });
+            hutbe.metin.forEach(p => {
+                const baslikMi = p.length <= 50 && p.endsWith('!');
+                html += baslikMi ? `<p class="hutbe-heading">${esc(p)}</p>` : `<p>${esc(p)}</p>`;
+            });
+            if (hutbe.arapca) {
+                html += `<div class="info-box">Hutbedeki Arapça ayet ve hadis metinleri için Diyanet'in orijinal PDF'sine bakabilirsiniz.</div>`;
+            }
+            if (hutbe.kaynaklar && hutbe.kaynaklar.length) {
+                html += `<div class="sources">Kaynaklar: ${esc(hutbe.kaynaklar.join(' • '))}</div>`;
+            }
         } else {
             html += `<div class="info-box">Bu hutbenin metni henüz eklenmedi. Aşağıdaki bağlantıdan Diyanet'in orijinal metnine ulaşabilir veya sesli olarak dinleyebilirsiniz.</div>`;
         }
