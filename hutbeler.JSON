@@ -1,0 +1,126 @@
+{
+  "guncelleme": "2026-10-26T19:59:15.051Z",
+  "kaynak": "https://turkiye.gov.tr/diyanet-isleri-cuma-ve-bayram-hutbeleri",
+  "hutbeler": [
+    {
+      "id": "2026-10-23",
+      "tarih": "2026-10-23",
+      "baslik": "Aile",
+      "ses": "https://dinhizmetleri.diyanet.gov.tr/Documents/Sesli%20Hutbe%20%28Aile%29.mp3"
+    },
+    {
+      "id": "2026-10-16",
+      "tarih": "2026-10-16",
+      "baslik": "İnsan!",
+      "ses": "https://dinhizmetleri.diyanet.gov.tr/Documents/Sesli%20Hutbe%20%28%C4%B0nsan!%29.mp3"
+    },
+    {
+      "id": "2026-10-09",
+      "tarih": "2026-10-09",
+      "baslik": "İnsanlığın Sınavı Gazze",
+      "ses": "https://dinhizmetleri.diyanet.gov.tr/Documents/Sesli%20Hutbe%20%28%C4%B0nsanl%C4%B1%C4%9F%C4%B1n%20S%C4%B1nav%C4%B1%20Gazze%29.mp3"
+    },
+    {
+      "id": "2026-10-02",
+      "tarih": "2026-10-02",
+      "baslik": "Cami ve Sosyal Hayat",
+      "ses": "https://dinhizmetleri.diyanet.gov.tr/Documents/Sesli%20Hutbe%20%28Cami%20ve%20Sosyal%20Hayat%29.mp3"
+    },
+    {
+      "id": "2026-09-25",
+      "tarih": "2026-09-25",
+      "baslik": "Tebliğ Sorumluluğumuz",
+      "ses": "https://dinhizmetleri.diyanet.gov.tr/Documents/Sesli%20Hutbe%20%28Tebli%C4%9F%20Sorumlulu%C4%9Fumuz%29.mp3"
+    },
+    {
+      "id": "2026-09-18",
+      "tarih": "2026-09-18",
+      "baslik": "Ahîlik Ahlakı",
+      "ses": "https://dinhizmetleri.diyanet.gov.tr/Documents/Sesli%20Hutbe%20%28Ah%C3%AElik%20Ahlak%C4%B1%29.mp3"
+    },
+    {
+      "id": "2026-09-11",
+      "tarih": "2026-09-11",
+      "baslik": "Eğitim ve Öğretim",
+      "ses": "https://dinhizmetleri.diyanet.gov.tr/Documents/Sesli%20Hutbe%20%28E%C4%9Fitim%20ve%20%C3%96%C4%9Fretim%29.mp3"
+    },
+    {
+      "id": "2026-09-04",
+      "tarih": "2026-09-04",
+      "baslik": "Peygamberimiz ve Güzel Ahlak",
+      "ses": "https://dinhizmetleri.diyanet.gov.tr/Documents/Sesli%20Hutbe%20%28%20Peygamberimiz%20ve%20G%C3%BCzel%20Ahlak%29.mp3"
+    },
+    {
+      "id": "2026-08-28",
+      "tarih": "2026-08-28",
+      "baslik": "Vatan Sevgisi",
+      "ses": "https://dinhizmetleri.diyanet.gov.tr/Documents/Sesli%20Hutbe%20%28Vatan%20Sevgisi%29.mp3"
+    },
+    {
+      "id": "2026-08-21",
+      "tarih": "2026-08-21",
+      "baslik": "Mevlid-i Nebi",
+      "ses": "https://dinhizmetleri.diyanet.gov.tr/Documents/Sesli%20Hutbe%20%28Mevlid-i%20Nebi,%29.mp3"
+    },
+    {
+      "id": "2026-08-14",
+      "tarih": "2026-08-14",
+      "baslik": "Her Yetim Bir Emanet",
+      "ses": "https://dinhizmetleri.diyanet.gov.tr/Documents/Sesli%20Hutbe%20%28Her%20Yetim%20Bir%20Emanet%29.mp3"
+    },
+    {
+      "id": "2026-08-07",
+      "tarih": "2026-08-07",
+      "baslik": "Kardeşlik",
+      "ses": "https://dinhizmetleri.diyanet.gov.tr/Documents/Sesli%20Hutbe%20%28Karde%C5%9Flik%29.mp3"
+    },
+    {
+      "id": "2026-07-31",
+      "tarih": "2026-07-31",
+      "baslik": "Helal Haram Duyarlılığı",
+      "ses": "https://dinhizmetleri.diyanet.gov.tr/Documents/Sesli%20Hutbe%20%28Helal%20Haram%20Duyarl%C4%B1l%C4%B1%C4%9F%C4%B1%29.mp3"
+    },
+    {
+      "id": "2026-07-24",
+      "tarih": "2026-07-24",
+      "baslik": "İslam Medeniyeti",
+      "ses": "https://dinhizmetleri.diyanet.gov.tr/Documents/Sesli%20Hutbe%20%28%C4%B0slam%20Medeniyeti%29.mp3"
+    },
+    {
+      "id": "2026-07-17",
+      "tarih": "2026-07-17",
+      "baslik": "Kur'an-ı Kerim",
+      "ses": "https://dinhizmetleri.diyanet.gov.tr/Documents/Sesli%20Hutbe%20%28Kur'an-%C4%B1%20Kerim%29.mp3"
+    },
+    {
+      "id": "2026-07-10",
+      "tarih": "2026-07-10",
+      "baslik": "Din İstismarı",
+      "ses": "https://dinhizmetleri.diyanet.gov.tr/Documents/Sesli%20Hutbe%20%28-Din%20%C4%B0stismar%C4%B1%29.mp3"
+    },
+    {
+      "id": "2026-07-03",
+      "tarih": "2026-07-03",
+      "baslik": "Yaz Kur'an Kursları",
+      "ses": "https://dinhizmetleri.diyanet.gov.tr/Documents/Sesli%20Hutbe%20%28Yaz%20Kur'an%20Kurslar%C4%B1%29.mp3"
+    },
+    {
+      "id": "2026-06-26",
+      "tarih": "2026-06-26",
+      "baslik": "Aile Olmak",
+      "ses": "https://dinhizmetleri.diyanet.gov.tr/Documents/Sesli%20Hutbe%20%28Aile%20Olmak%29.mp3"
+    },
+    {
+      "id": "2026-06-19",
+      "tarih": "2026-06-19",
+      "baslik": "Birlikte Rahmet Vardır",
+      "ses": "https://dinhizmetleri.diyanet.gov.tr/Documents/Sesli%20Hutbe%20%28Birlikte%20Rahmet%20Vard%C4%B1r%29.mp3"
+    },
+    {
+      "id": "2026-06-12",
+      "tarih": "2026-06-12",
+      "baslik": "Hicri Yeni Yıla Girerken",
+      "ses": "https://dinhizmetleri.diyanet.gov.tr/Documents/Sesli%20Hutbe%20%28Hicri%20Yeni%20Y%C4%B1la%20Girerken%29.mp3"
+    }
+  ]
+}
