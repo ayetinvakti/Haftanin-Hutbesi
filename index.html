@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Haftanın Hutbesi | Ayetin Vakti</title>
     <meta name="theme-color" content="#10b981">
-    
+
     <script>
         const savedTheme = localStorage.getItem('theme') || 'dark';
         if (savedTheme === 'light') {
@@ -67,31 +67,29 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body { font-family: var(--font-family); background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 16px; transition: background-color 0.3s ease, color 0.3s ease; }
-        
+
         .main-wrapper { width: 100%; max-width: 1050px; display: grid; grid-template-columns: 280px 1fr; gap: 20px; align-items: start; transition: 0.3s ease; }
-        
+
         .main-wrapper.sidebar-closed { grid-template-columns: 1fr; max-width: 750px; }
         .main-wrapper.sidebar-closed .sidebar-card { display: none; }
 
-        @media(max-width: 850px) { 
+        @media(max-width: 850px) {
             .main-wrapper { grid-template-columns: 1fr; }
             .main-wrapper.sidebar-closed .sidebar-card { display: none; }
-            /* Mobilde arşivi tam ekran modal/overlay yapıyoruz */
-            .sidebar-card { 
-                display: none; 
-                position: fixed !important; 
-                top: 50% !important; 
-                left: 50% !important; 
-                transform: translate(-50%, -50%) !important; 
-                width: 90% !important; 
-                max-width: 400px !important; 
-                max-height: 80vh !important; 
-                z-index: 1000 !important; 
+            .sidebar-card {
+                display: none;
+                position: fixed !important;
+                top: 50% !important;
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important;
+                width: 90% !important;
+                max-width: 400px !important;
+                max-height: 80vh !important;
+                z-index: 1000 !important;
                 box-shadow: 0 25px 50px rgba(0,0,0,0.7) !important;
             }
             .sidebar-card.mobile-open { display: flex !important; }
-            
-            /* Arka plan karartması */
+
             .modal-backdrop {
                 display: none;
                 position: fixed;
@@ -104,17 +102,17 @@
         }
 
         .container { width: 100%; display: flex; flex-direction: column; gap: 16px; }
-        
+
         .sidebar-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 10px; box-shadow: var(--shadow); position: sticky; top: 16px; }
-        
+
         .sidebar-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; background-color: var(--card-bg); z-index: 2; }
         .sidebar-title { font-size: 1rem; font-weight: 700; color: var(--accent-color); display: flex; align-items: center; gap: 6px; }
-        
+
         .collapse-btn { background: var(--btn-bg); border: 1px solid var(--border-color); color: var(--text-color); width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 0.85rem; transition: 0.2s; }
         .collapse-btn:hover { border-color: var(--accent-color); color: var(--accent-color); background: var(--btn-hover); }
 
         .archive-list { display: flex; flex-direction: column; gap: 6px; max-height: 350px; overflow-y: auto; padding-right: 4px; }
-        
+
         .archive-list::-webkit-scrollbar { width: 6px; }
         .archive-list::-webkit-scrollbar-track { background: transparent; }
         .archive-list::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
@@ -130,14 +128,14 @@
 
         .circle-btn { width: 42px; height: 42px; border-radius: 50%; background: var(--btn-bg); border: 1px solid var(--border-color); color: var(--text-color); display: flex; align-items: center; justify-content: center; cursor: pointer; text-decoration: none; font-size: 1.2rem; transition: 0.2s; }
         .circle-btn:hover { border-color: var(--accent-color); color: var(--accent-color); background: var(--btn-hover); }
-        
+
         .nav-left-group { display: flex; align-items: center; gap: 8px; }
         .app-title { font-size: 1.1rem; font-weight: 700; color: var(--accent-color); text-align: center; }
 
         .content-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 18px; padding: 22px; display: flex; flex-direction: column; gap: 16px; box-shadow: var(--shadow); transition: 0.3s; }
         .card-header-flex { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; flex-wrap: wrap; gap: 8px; }
         .card-title { font-size: 1.15rem; font-weight: 700; color: var(--accent-color); display: flex; align-items: center; gap: 8px; }
-        
+
         .show-archive-btn { background: var(--btn-bg); border: 1px solid var(--border-color); color: var(--accent-color); padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; cursor: pointer; display: none; transition: 0.2s; }
         .show-archive-btn:hover { background: var(--btn-hover); border-color: var(--accent-color); }
 
@@ -145,15 +143,20 @@
 
         .hutbe-meta { display: flex; flex-direction: column; gap: 6px; }
         .hutbe-main-title { font-size: 1.15rem; font-weight: 700; color: var(--text-color); line-height: 1.4; }
-        
+
         .hutbe-body { font-size: 0.92rem; color: var(--text-muted); line-height: 1.7; display: flex; flex-direction: column; gap: 12px; }
         .hutbe-body p { text-align: justify; }
 
         .quote-box { background: var(--btn-bg); border-left: 4px solid var(--accent-color); padding: 12px 16px; border-radius: 0 12px 12px 0; font-style: italic; color: var(--text-color); font-size: 0.9rem; }
         [dir="rtl"] .quote-box { border-left: none; border-right: 4px solid var(--accent-color); border-radius: 12px 0 0 12px; }
 
-        .external-link-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; background: var(--accent-color); color: #fff; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 0.9rem; box-shadow: var(--shadow); transition: 0.2s; margin-top: 6px; }
+        .info-box { background: var(--btn-bg); border: 1px dashed var(--border-color); padding: 14px 16px; border-radius: 12px; font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; text-align: center; }
+
+        .link-row { display: flex; gap: 8px; flex-wrap: wrap; }
+        .external-link-btn { flex: 1 1 200px; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; background: var(--accent-color); color: #fff; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 0.9rem; box-shadow: var(--shadow); transition: 0.2s; margin-top: 6px; }
         .external-link-btn:hover { background: var(--accent-hover); }
+        .external-link-btn.secondary { background: var(--btn-bg); color: var(--accent-color); border: 1px solid var(--border-color); box-shadow: none; }
+        .external-link-btn.secondary:hover { border-color: var(--accent-color); background: var(--btn-hover); }
 
         .footer { grid-column: 1 / -1; margin: 10px 0; text-align: center; font-size: 0.85rem; color: var(--text-muted); }
         .footer span { color: var(--accent-color); font-weight: 600; }
@@ -170,9 +173,7 @@
             <div class="sidebar-title">📚 Hutbe Arşivi</div>
             <button class="collapse-btn" onclick="toggleSidebar()" title="Menüyü Gizle">✕</button>
         </div>
-        <div class="archive-list" id="archive-list">
-            <!-- JavaScript ile doldurulacak -->
-        </div>
+        <div class="archive-list" id="archive-list"></div>
     </div>
 
     <!-- SAĞ ANA İÇERİK ALANI -->
@@ -199,13 +200,14 @@
                 <div class="hutbe-main-title" id="hutbe-title">Yükleniyor...</div>
             </div>
 
-            <div class="hutbe-body" id="hutbe-content">
-                <!-- İçerik Dinamik Yüklenecek -->
-            </div>
+            <div class="hutbe-body" id="hutbe-content"></div>
 
-            <a href="https://www.diyanet.gov.tr" target="_blank" id="hutbe-link" class="external-link-btn">
-                🔗 Diyanet İşleri Başkanlığı Orijinal Kaynak
-            </a>
+            <div class="link-row">
+                <a href="#" target="_blank" rel="noopener" id="hutbe-audio" class="external-link-btn secondary" style="display:none;">🎧 Sesli Hutbeyi Dinle</a>
+                <a href="https://turkiye.gov.tr/diyanet-isleri-cuma-ve-bayram-hutbeleri" target="_blank" rel="noopener" id="hutbe-link" class="external-link-btn">
+                    🔗 Diyanet Orijinal Kaynak (PDF / Word)
+                </a>
+            </div>
         </div>
     </div>
 </div>
@@ -213,144 +215,24 @@
 <div class="footer">© Ayetin Vakti • <span>Huzur ve İbadet Rehberliğiniz</span></div>
 
 <script>
-    const hutbelerData = [
-        {
-            id: "28-agustos-2026",
-            tarih: "28 Ağustos 2026",
-            baslik: "Vatan Sevgisi ve Millî Bilinç",
-            ayet: "“Ey iman edenler! Sabredin; düşman karşısında sebat gösterin; cihad için hazırlıklı ve uyanık olun ve Allah'tan korkun ki başarıya erişebilesiniz.” (Âl-i İmrân, 3/200)",
-            metin: [
-                "Muhterem Müslümanlar!",
-                "İslam dini, insanın doğup büyüdüğü, ezanların okunduğu, bayrağın dalgalandığı ve inancını özgürce yaşayabildiği toprak parçasını yani vatanı, imanla ve mukaddesatla özdeşleştirmiştir. Tarih boyunca milletimiz, vatanı canından üstün bilmiş, bağımsızlığı uğruna en ağır bedelleri ödemekten çekinmemiştir.",
-                "Aziz cemaat! Vatan sevgisi sadece coğrafi bir bağlılık değildir; aynı zamanda o topraklarda yaşayan her bireye karşı sorumluluk duymak, birliği, dirliği ve kardeşliği korumak demektir. Bugün bizlere düşen en büyük vazife, şehitlerimizin emaneti olan bu cennet vatanı her alanda ileri taşımak, fitne ve fesat odaklarına karşı uyanık olmaktır.",
-                "Yüce Rabbimiz vatanımızı, ezanımızı ve bayrağımızı kıyamete kadar payidar eylesin. Birlik ve beraberliğimize zarar vermek isteyenlere fırsat vermesin."
-            ],
-            link: "https://www.diyanethaber.com.tr"
-        },
-        {
-            id: "21-agustos-2026",
-            tarih: "21 Ağustos 2026",
-            baslik: "Mevlid-i Nebi ve Peygamber Sevgisi",
-            ayet: "“Ey Peygamber! Biz seni bir şahit, bir müjdeleyici, bir uyarıcı olarak gönderdik. Allah’ın izniyle kendi yoluna çağıran bir davetçi ve aydınlatıcı bir kandil olarak gönderdik.” (Ahzâb, 33/45-46)",
-            metin: [
-                "Muhterem Müminler!",
-                "Alemlere rahmet olarak gönderilen Sevgili Peygamberimiz Hz. Muhammed Mustafa (s.a.s.) insanlığın adalet, merhamet ve şefkat bulduğu kutlu bir çığır açmıştır. O, inananlar için en güzel örnek (üsve-i hasene) olarak nitelendirilmiştir.",
-                "Peygamber sevgisi, O'nun sünnetini hayatımıza rehber edinmekle, ahlakını kuşanmakla ve insanlığa sunduğu evrensel mesajları yaşamakla gerçek anlamını bulur. Sadece adını anmak yetmez; O'nun dürüstlüğünü, merhametini, mazlumun yanında duruşunu ve emanete sadakatini örnek almalıyız.",
-                "Mevlid-i Nebi, O'nun ahlakıyla yeniden hallenmemize, kalplerimizi ve evlerimizi O'nun nuruyla aydınlatmamıza vesile olsun."
-            ],
-            link: "https://www.diyanethaber.com.tr"
-        },
-        {
-            id: "14-agustos-2026",
-            tarih: "14 Ağustos 2026",
-            baslik: "Her Yetim Bir Emanettir",
-            ayet: "“Sana yetimler hakkında soruyorlar. De ki: Onları iyi yetiştirmek ve korumak hayırlıdır.” (Bakara, 2/220)",
-            metin: [
-                "Aziz Kardeşlerim!",
-                "İslam dini kimsesizlerin, zayıfların ve özellikle yetimlerin korunmasını dinin en temel direklerinden biri saymıştır. Sevgili Peygamberimiz (s.a.s.) kendi elleriyle yetimlere hamilik yapmış, onların başını okşayanın büyük mükâfatlar alacağını müjdelemiştir.",
-                "Toplumsal vicdanın en hassas noktası yetimlerdir. Bir toplumda yetimlerin yüzü gülüyorsa, o toplumda rahmet ve bereket eksik olmaz. Onların sadece maddi ihtiyaçlarını karşılamak yetmez; eğitimleriyle, ruhsal gelişimleriyle yakından ilgilenmek ve kendilerini yalnız hissettirmemek hepimizin boynunun borcudur.",
-                "Yüce Allah, bizleri yetimlerin ve kimsesizlerin koruyucusu eylesin, ellerimizi onların üzerinden eksik etmesin."
-            ],
-            link: "https://www.diyanet.tv"
-        },
-        {
-            id: "07-agustos-2026",
-            tarih: "7 Ağustos 2026",
-            baslik: "İlim ve Hikmet Peşinde Bir Ömür",
-            ayet: "“De ki: Hiç bilenlerle bilmeyenler bir olur mu? Şüphesiz ancak akıl sahipleri bunu idrak eder.” (Zümer, 39/9)",
-            metin: [
-                "Muhterem Müslümanlar!",
-                "İslam medeniyeti bir ilim medeniyetidir. 'Oku' emriyle başlayan inancımız, beşikten mezara kadar ilim öğrenmeyi her kadın ve erkek müslümana farz kılkıştır. İlim, insanı cehaletten kurtaran, hakikati ve Rabbini tanıtan en şerefli yoldur.",
-                "Bugün bilgiye ulaşmak çok kolay olsa da mühim olan bilgiyi hikmete ve ahlaka dönüştürebilmektir. Faydalı ilim peşinde koşan, topluma ve insanlığa değer üreten bireyler olmak dinimizin en temel emirlerindendir.",
-                "Rabbimiz, bizi ilmiyle amil olan, hikmetle hareket eden ve okuyan kullarından eylesin."
-            ],
-            link: "https://www.diyanethaber.com.tr"
-        },
-        {
-            id: "31-temmuz-2026",
-            tarih: "31 Temmuz 2026",
-            baslik: "Aile Huzurumuz ve Neslimizin Emniyeti",
-            ayet: "“Ey iman edenler! Kendinizi ve ailenizi yakıtı insanlar ve taşlar olan ateşten koruyun.” (Tahrîm, 66/6)",
-            metin: [
-                "Kıymetli Cemaat!",
-                "Toplumun temel yapı taşı olan aile, huzurun, sevginin ve güvenin sığınağıdır. Eşler arasındaki karşılıklı saygı, sadakat ve merhamet bağı, yuvaların ömrünü uzatan en güçlü harçtır.",
-                "Günümüzde aile kurumuna yönelik dış ve iç tehditler artmış, neslimizin manevi emniyeti tehlikeye girmiştir. Evlatlarımızı sadece maddi olarak beslemek yetmez; onlara güzel ahlak, doğru inanç ve sorumluluk bilinci aşılamak ebeveyn olarak en büyük imtihanımızdır.",
-                "Allah Teâlâ yuvalarımıza huzur, evlatlarımıza sâlih birer ömür versin."
-            ],
-            link: "https://www.diyanethaber.com.tr"
-        },
-        {
-            id: "24-temmuz-2026",
-            tarih: "24 Temmuz 2026",
-            baslik: "İslam Medeniyetinde Adalet ve Hakkaniyet",
-            ayet: "“Şüphesiz Allah adaleti, iyiliği ve yakınlara yardım etmeyi emreder; hayasızlığı, fenalığı ve azgınlığı da yasaklar.” (Nahl, 16/90)",
-            metin: [
-                "Aziz Müminler!",
-                "Adalet, mülkün temelidir; yani devletin, toplumun ve insan ilişkilerinin ayakta kalabilmesi adalet terazisinin doğru tartılmasına bağlıdır. Hak sahibine hakkını teslim etmek, kimseye zulmetmemek inancımızın kuralıdır.",
-                "Müslüman, kimden gelirse gelsin haksızlığa karşı duran, kime karşı olursa olsun adaletten sapmayandır. Gerek aile içinde, gerek ticaret hayatında, gerekse sosyal ilişkilerde hakkaniyet ölçüsünden asla taviz verilmemelidir.",
-                "Mevlâ bizi adaletten, doğruluktan ve hak yolundan ayırmasın."
-            ],
-            link: "https://www.diyanethaber.com.tr"
-        },
-        {
-            id: "17-temmuz-2026",
-            tarih: "17 Temmuz 2026",
-            baslik: "Çevre Bilinci ve Emanete Sadakat",
-            ayet: "“Yeryüzünde fesat çıkarmayın (düzenini bozmayın). Allah, bozguncuları sevmez.” (A‘râf, 7/56)",
-            metin: [
-                "Muhterem Müminler!",
-                "İçinde yaşadığımız bu kâinat, Yüce Allah'ın bize sunduğu kusursuz bir emanettir. Suları, ormanları, havayı ve bütün canlıları korumak dinimizin çevre ahlakının temelini oluşturur.",
-                "Bugün insanoğlunun eliyle doğanın dengesi bozulmakta, israf ve kirlilik artmaktadır. Peygamberimiz (s.a.s.) yarın kıyamet kopacağını bilseniz dahi elinizdeki fidanı dikin buyurarak çevreye olan hassasiyetin en güzel örneğini vermiştir.",
-                "Rabbimiz bizi tabiatı koruyan, israftan kaçınan ve emanete hıyanet etmeyen şuurlu kullarından eylesin."
-            ],
-            link: "https://www.diyanethaber.com.tr"
-        },
-        {
-            id: "10-temmuz-2026",
-            tarih: "10 Temmuz 2026",
-            baslik: "Dürüstlük ve Ticaret Ahlakı",
-            ayet: "“Ey iman edenler! Karşılıklı rızaya dayanan ticaret dışında mallarınızı aranızda haksızlıkla yemeyin.” (Nisâ, 4/29)",
-            metin: [
-                "Değerli Kardeşlerim!",
-                "İslam, hayatın her alanında olduğu gibi kazanç ve ticaret kapılarında da dürüstlüğü ve adaleti şart koşmuştur. 'Bizi aldatan bizden değildir' buyuran Peygamber Efendimiz, hileli işlerden ve yalanla mal satmaktan ümmetini sakındırmıştır.",
-                "Helal kazanç, insanın hem kalbini hem de yuvasını bereketlendirir. Alın teriyle elde edilen az kazanç, haram yollardan kazanılan servetten çok daha hayırlıdır.",
-                "Yüce Allah rızkımızın helalini, bereketlisini nasip eylesin ve bizi her türlü hileden korusun."
-            ],
-            link: "https://www.diyanethaber.com.tr"
-        },
-        {
-            id: "03-temmuz-2026",
-            tarih: "3 Temmuz 2026",
-            baslik: "Şükür Bilinci ve Kanaatkârlık",
-            ayet: "“Rabbiniz şöyle buyurmuştu: Eğer şükrederseniz, elbette size nimetimi artırırım.” (İbrâhîm, 14/7)",
-            metin: [
-                "Muhterem Müslümanlar!",
-                "İnsanoğlu genellikle elindekinin kıymetini kaybettikten sonra anlar. Sağlık, huzur, afiyet ve rızık gibi nice sayısız nimet karşısında gösterilecek en güzel tutum şükretmektir.",
-                "Şükür sadece dille yapılan 'elhamdülillah' demekten ibaret değildir; nimetin kıymetini bilmek, onu hak yolunda harcamak ve başkalarıyla paylaşmaktır. Kanaatkârlık ise insanın gözünü ve gönlünü doyuran en büyük zenginliktir.",
-                "Rabbimiz bizi nimetine şükreden, kalbi kanaatle dolu olan kullarından eylesin."
-            ],
-            link: "https://www.diyanethaber.com.tr"
-        },
-        {
-            id: "26-haziran-2026",
-            tarih: "26 Haziran 2026",
-            baslik: "Komşuluk Hakları ve Toplumsal Bağlar",
-            ayet: "“Allah'a ibadet edin ve O'na hiçbir şeyi ortak koşmayın. Anne babaya, akrabaya, yetimlere, yoksullara, yakın komşuya, uzak komşuya... iyilik edin.” (Nisâ, 4/36)",
-            metin: [
-                "Aziz Müminler!",
-                "Modern hayatın getirdiği koşturmaca içerisinde bazen en yakınımızda kimin oturduğunu, halinin ne olduğunu unutur hale geldik. Oysa medeniyetimiz bir komşu medeniyetidir.",
-                "'Komşusu açken tok yatan bizden değildir' ölçüsüyle hareket eden bir inancın mensupları olarak, komşuluk ilişkilerini canlı tutmak, dar günlerinde yardımına koşmak ve sevinçlerini paylaşmak toplumsal bağlarımızın çimentosudur.",
-                "Yüce Allah komşularımızla olan ilişkilerimizi sevgi, saygı ve huzur temelinde daim eylesin."
-            ],
-            link: "https://www.diyanethaber.com.tr"
-        }
-    ];
+    // Hutbeler hutbeler.json dosyasından gelir; dosya GitHub Actions ile her hafta otomatik güncellenir.
+    let hutbelerData = [];
+    let aktifId = null;
+
+    function esc(s) {
+        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    function fmtTarih(id) {
+        const [y, m, d] = id.split('-').map(Number);
+        return new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(y, m - 1, d));
+    }
 
     function toggleSidebar() {
         const wrapper = document.getElementById('main-wrapper');
         const sidebar = document.getElementById('sidebar-card');
         const backdrop = document.getElementById('modal-backdrop');
-        
+
         if (window.innerWidth <= 850) {
             sidebar.classList.toggle('mobile-open');
             backdrop.classList.toggle('active');
@@ -367,14 +249,12 @@
             const item = document.createElement('div');
             item.className = `archive-item ${hutbe.id === activeId ? 'active' : ''}`;
             item.innerHTML = `
-                <span class="archive-date">${hutbe.tarih}</span>
-                <span class="archive-name">${hutbe.baslik}</span>
+                <span class="archive-date">${esc(fmtTarih(hutbe.id))}</span>
+                <span class="archive-name">${esc(hutbe.baslik)}</span>
             `;
             item.onclick = () => {
                 loadHutbe(hutbe.id);
-                if (window.innerWidth <= 850) {
-                    toggleSidebar();
-                }
+                if (window.innerWidth <= 850) toggleSidebar();
             };
             listContainer.appendChild(item);
         });
@@ -382,18 +262,44 @@
 
     function loadHutbe(id) {
         const hutbe = hutbelerData.find(h => h.id === id) || hutbelerData[0];
-        
-        document.getElementById('hutbe-date').innerText = hutbe.tarih;
-        document.getElementById('hutbe-title').innerText = hutbe.baslik;
-        document.getElementById('hutbe-link').href = hutbe.link;
+        if (!hutbe) return;
+        aktifId = hutbe.id;
 
-        let contentHTML = `<div class="quote-box">${hutbe.ayet}</div>`;
-        hutbe.metin.forEach(paragraf => {
-            contentHTML += `<p>${paragraf}</p>`;
-        });
-        document.getElementById('hutbe-content').innerHTML = contentHTML;
+        document.getElementById('hutbe-date').innerText = fmtTarih(hutbe.id);
+        document.getElementById('hutbe-title').innerText = hutbe.baslik;
+
+        const audio = document.getElementById('hutbe-audio');
+        if (hutbe.ses) { audio.href = hutbe.ses; audio.style.display = 'flex'; }
+        else { audio.style.display = 'none'; }
+
+        let html = '';
+        if (hutbe.ayet) html += `<div class="quote-box">${esc(hutbe.ayet)}</div>`;
+        if (hutbe.metin && hutbe.metin.length) {
+            hutbe.metin.forEach(p => { html += `<p>${esc(p)}</p>`; });
+        } else {
+            html += `<div class="info-box">Bu hutbenin metni henüz eklenmedi. Aşağıdaki bağlantıdan Diyanet'in orijinal metnine ulaşabilir veya sesli olarak dinleyebilirsiniz.</div>`;
+        }
+        document.getElementById('hutbe-content').innerHTML = html;
 
         renderArchiveList(hutbe.id);
+        history.replaceState(null, '', '#' + hutbe.id);
+    }
+
+    async function loadData() {
+        try {
+            const res = await fetch('hutbeler.json?ts=' + Date.now(), { cache: 'no-store' });
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            const json = await res.json();
+            hutbelerData = (json.hutbeler || []).slice().sort((a, b) => b.id.localeCompare(a.id));
+            if (!hutbelerData.length) throw new Error('Liste boş');
+            const hashId = location.hash.replace('#', '');
+            loadHutbe(hashId || hutbelerData[0].id);
+        } catch (e) {
+            document.getElementById('hutbe-date').innerText = '—';
+            document.getElementById('hutbe-title').innerText = 'Hutbe yüklenemedi';
+            document.getElementById('hutbe-content').innerHTML =
+                `<div class="info-box">Hutbe listesi şu an yüklenemedi. Lütfen daha sonra tekrar deneyin veya Diyanet'in orijinal kaynağını kullanın.</div>`;
+        }
     }
 
     function initTheme() {
@@ -403,26 +309,25 @@
 
     function toggleTheme() {
         const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-        const newTheme = isLight ? 'dark' : 'light';
-        applyTheme(newTheme);
+        applyTheme(isLight ? 'dark' : 'light');
     }
 
     function applyTheme(theme) {
         const btn = document.getElementById('theme-btn');
         if (theme === 'light') {
             document.documentElement.setAttribute('data-theme', 'light');
-            if (btn) btn.innerHTML = '🌙'; 
+            if (btn) btn.innerHTML = '🌙';
             localStorage.setItem('theme', 'light');
         } else {
             document.documentElement.removeAttribute('data-theme');
-            if (btn) btn.innerHTML = '☀️'; 
+            if (btn) btn.innerHTML = '☀️';
             localStorage.setItem('theme', 'dark');
         }
     }
 
     window.onload = () => {
         initTheme();
-        loadHutbe(hutbelerData[0].id);
+        loadData();
     };
 </script>
 </body>
