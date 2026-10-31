@@ -45,48 +45,103 @@ export function parseList(html) {
     return out;
 }
 
-const TEXT_VERSION = 2; // Ayrıştırma yöntemi değişince artır: eski metinler yeniden çekilir
+const TEXT_VERSION = 3; // Ayrıştırma yöntemi değişince artır: eski metinler yeniden çekilir
 const ARABIC = /[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/;
 const HEADING = /^[A-ZÇĞİÖŞÜÂÎÛ][^.?;:,“”"]{2,48}!$/;
 
-// pdftotext -raw çıktısından gövde paragrafları, dipnot kaynakları ve Arapça var/yok bilgisini çıkarır
+// ---- Arapça yardımcıları ----
+const AR_HARAKE = /[\u064B-\u065F\u0670\u06D6-\u06ED]/g;   // ünlü/okunuş işaretleri
+const arHarfler = (s) => s.replace(/[^\p{L}]/gu, '');
+const arOrani = (s) => {
+    const h = arHarfler(s);
+    if (!h.length) return 0;
+    return (h.match(new RegExp(ARABIC.source, 'g')) || []).length / h.length;
+};
+const arapcaSatir = (l) => arOrani(l) > 0.6;
+
+// Arapça satırların PDF'ten hangi sırayla çıktığını istatistikle anlar (metin üretmez, yalnızca sıra denetler).
+// Doğru (mantıksal) sırada kelimeler çoğunlukla "ال" ile başlar; ters (görsel) sırada "لا" ile biter.
+// Dönüş: 'duzgun' | 'ters' | 'belirsiz'
+export function arapcaSirasi(satirlar) {
+    let basla = 0, biter = 0;
+    for (const l of satirlar) {
+        const kelimeler = l.normalize('NFKC').replace(AR_HARAKE, '').split(/\s+/);
+        for (const k of kelimeler) {
+            const t = k.replace(/[^\u0621-\u064A]/g, '');
+            if (t.length < 3) continue;
+            if (t.startsWith('ال')) basla++;
+            if (t.endsWith('لا')) biter++;
+        }
+    }
+    if (basla + biter < 3) return 'belirsiz';
+    if (basla >= biter * 2) return 'duzgun';
+    if (biter >= basla * 2) return 'ters';
+    return 'belirsiz';
+}
+const satiriTersCevir = (l) => Array.from(l).reverse().join('');
+
+// pdftotext -raw çıktısından gövde paragrafları, dipnot kaynakları ve Arapça var/yok bilgisini çıkarır.
+// Arapça satırlar PDF'te yazıldığı gibi, kendi paragrafı olarak korunur; sırası güvenilir değilse yayına alınmaz.
 export function extractBody(text, baslik) {
     const norm = (s) => s.toLocaleLowerCase('tr').replace(/\s+/g, ' ').trim();
     let lines = text.replace(/\r/g, '').replace(/\f/g, '\n').split('\n').map(l => l.trim()).filter(Boolean);
+    lines = lines.filter(l => !/^[.:;,!?\-–—]+$/.test(l));
 
-    // Arapça satırlar (ve aralarındaki noktalama artıkları) ayıklanır; PDF'ten Arapça güvenilir çıkmaz
-    let arapca = false;
-    const kept = [];
-    for (const l of lines) {
-        if (ARABIC.test(l)) { arapca = true; continue; }
-        if (/^[.:;,!?\-–—]+$/.test(l)) continue;
-        kept.push(l);
+    // Arapça satırları belirle ve sıralarını denetle
+    let arapca = lines.some(l => ARABIC.test(l));
+    const arSatirlar = lines.filter(arapcaSatir);
+    let arModu = 'yok';
+    if (arSatirlar.length) {
+        const sira = arapcaSirasi(arSatirlar);
+        const sadeceSembol = arSatirlar.every(l => arHarfler(l).length <= 1);   // tek karakterlik semboller (örn. besmele ligatürü)
+        if (sira === 'duzgun' || sadeceSembol) arModu = 'duzgun';
+        else if (sira === 'ters') arModu = 'ters';
+        else arModu = 'guvenilmez';
+        if (arModu === 'guvenilmez') console.warn(`Arapça satırların sırası doğrulanamadı (${baslik}); Arapça yayına alınmadı.`);
     }
-    lines = kept.filter(l => !/^Tarih:\s*\d/.test(l) && !/^Din Hizmetleri Genel Müdürlüğü$/.test(l));
+
+    // Arapça-Türkçe karışık satırlar Türkçe metin olarak korunur; yalnızca baskın Arapça satırlar ayrı blok olur
+    const items = [];
+    for (const l of lines) {
+        if (arapcaSatir(l)) {
+            if (arModu === 'guvenilmez' || arModu === 'yok') continue;
+            items.push({ ar: true, t: arModu === 'ters' ? satiriTersCevir(l) : l });
+        } else {
+            items.push({ ar: false, t: l });
+        }
+    }
+    lines = items.filter(i => i.ar || (!/^Tarih:\s*\d/.test(i.t) && !/^Din Hizmetleri Genel Müdürlüğü$/.test(i.t)));
 
     // Sondaki dipnotlar: tek başına rakam satırı + kaynak satırı ("1" / "Tirmizî, Birr, 15.")
     const kaynaklar = [];
-    while (lines.length >= 2 && /^\d{1,2}$/.test(lines[lines.length - 2]) && lines[lines.length - 1].length < 120) {
-        kaynaklar.unshift(lines[lines.length - 1]);
+    const son = (n) => lines[lines.length - n];
+    while (lines.length >= 2 && !son(1).ar && !son(2).ar && /^\d{1,2}$/.test(son(2).t) && son(1).t.length < 120) {
+        kaynaklar.unshift(son(1).t);
         lines.length -= 2;
     }
     // "1 Tirmizî, Birr, 15." biçimi
-    while (lines.length && /^\d{1,2}\s+\S.{2,100}$/.test(lines[lines.length - 1]) && /\d\.?$/.test(lines[lines.length - 1]) && lines[lines.length - 1].length < 100) {
-        kaynaklar.unshift(lines.pop().replace(/^\d{1,2}\s+/, ''));
+    while (lines.length && !son(1).ar && /^\d{1,2}\s+\S.{2,100}$/.test(son(1).t) && /\d\.?$/.test(son(1).t) && son(1).t.length < 100) {
+        kaynaklar.unshift(lines.pop().t.replace(/^\d{1,2}\s+/, ''));
     }
 
-    // Satırları paragraflara topla; "Aziz Müminler!" gibi hitap satırları kendi başına paragraf olur
+    // Satırları paragraflara topla; "Aziz Müminler!" gibi hitap satırları kendi başına paragraf olur;
+    // ardışık Arapça satırlar tek Arapça paragraf olur.
     const paras = [];
     let cur = [];
+    let arCur = [];
     const flush = () => { if (cur.length) { paras.push(cur.join(' ')); cur = []; } };
-    for (let l of lines) {
+    const flushAr = () => { if (arCur.length) { paras.push(arCur.join(' ')); arCur = []; } };
+    for (const it of lines) {
+        if (it.ar) { flush(); arCur.push(it.t); continue; }
+        flushAr();
+        let l = it.t;
         // metin içine yapışmış dipnot numaralarını temizle: değildir.”1 Evet → değildir.” Evet
         l = l.replace(/([”"])(\d{1,2})(?=\s|$)/g, '$1').replace(/([.!?;,])(\d{1,2})(?=\s+[A-Za-zÇĞİÖŞÜÂÎÛçğıöşüâîû“])/g, '$1');
         if (HEADING.test(l) && norm(l) !== norm(baslik)) { flush(); paras.push(l); continue; }
         if (norm(l) === norm(baslik)) continue;
         cur.push(l);
     }
-    flush();
+    flush(); flushAr();
 
     return { paragraflar: paras.map(p => p.replace(/\s+/g, ' ').trim()).filter(Boolean), kaynaklar, arapca };
 }
