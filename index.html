@@ -181,6 +181,47 @@
 
         .footer { grid-column: 1 / -1; margin: 10px 0; text-align: center; font-size: 0.85rem; color: var(--text-muted); }
         .footer span { color: var(--accent-color); font-weight: 600; }
+
+        /* ===== OKUMA ARACI ===== */
+        .reader-bar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .reader-bar .rb-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; margin-right: 2px; }
+        .rb-btn { min-width: 40px; height: 36px; padding: 0 12px; border-radius: 10px; background: var(--btn-bg); border: 1px solid var(--border-color); color: var(--text-color); font-weight: 700; font-size: 0.85rem; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; transition: 0.2s; font-family: inherit; }
+        .rb-btn.on { border-color: var(--accent-color); color: var(--accent-color); }
+        @media (hover: hover) { .rb-btn:hover { border-color: var(--accent-color); color: var(--accent-color); background: var(--btn-hover); } }
+
+        /* Okunaklı metin: boyut ve satır aralığı okuma aracından gelir */
+        .hutbe-body { --reader-size: 1.02rem; font-size: var(--reader-size); line-height: 1.85; color: var(--text-color); gap: 16px; hyphens: auto; -webkit-hyphens: auto; }
+        .hutbe-body.serif { font-family: Georgia, 'Times New Roman', 'Noto Serif', serif; }
+        .hutbe-body p { text-align: left; unicode-bidi: plaintext; }
+        .hutbe-body p.hutbe-heading { font-size: 1.05em; color: var(--accent-color); margin-top: 10px; }
+        .hutbe-body .quote-box { font-size: 0.95em; line-height: 1.8; }
+        .arabic-block { direction: rtl; text-align: center; font-family: 'Amiri', 'Scheherazade New', 'Noto Naskh Arabic', 'Traditional Arabic', 'Geeza Pro', serif; font-size: 1.45em; line-height: 2.2; color: var(--text-color); background: var(--btn-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 14px 16px; }
+
+        /* ===== SESLİ / GÖRÜNTÜLÜ ===== */
+        .media-area { display: flex; flex-direction: column; gap: 12px; }
+        .media-box { background: var(--btn-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+        .media-box .media-title { font-size: 0.85rem; font-weight: 700; color: var(--accent-color); }
+        .media-box audio { width: 100%; }
+        .video-wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; background: #000; }
+        .video-wrap iframe, .video-wrap video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+        /* ===== PAYLAŞ ===== */
+        .share-row { display: flex; gap: 8px; flex-wrap: wrap; }
+        .share-row .rb-btn { flex: 1 1 120px; height: 42px; }
+        .toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--card-bg); color: var(--text-color); border: 1px solid var(--accent-color); padding: 10px 16px; border-radius: 12px; font-size: 0.85rem; font-weight: 600; box-shadow: var(--shadow); z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+        .toast.show { opacity: 1; }
+        .print-head { display: none; }
+
+        @media print {
+            html, html.light-mode { --bg-color: #fff; --card-bg: #fff; --text-color: #000; --text-muted: #222; --border-color: #999; --btn-bg: #fff; --accent-color: #000; }
+            body { background: #fff !important; color: #000 !important; padding: 0; }
+            .navbar, .sidebar-card, .modal-backdrop, .reader-bar, .media-area, .share-row, .link-row, .footer, .toast, .show-archive-btn { display: none !important; }
+            .main-wrapper { display: block; max-width: 100%; }
+            .content-card { border: none !important; box-shadow: none !important; padding: 0 !important; }
+            .print-head { display: block; font-size: 0.8rem; color: #333; border-bottom: 1px solid #999; padding-bottom: 6px; }
+            .hutbe-body { font-size: 12pt; line-height: 1.6; color: #000; }
+            .arabic-block { border: none; background: none; }
+        }
     </style>
 </head>
 <body>
@@ -217,21 +258,42 @@
                 <div class="date-badge" id="hutbe-date">Yükleniyor...</div>
             </div>
 
+            <div class="print-head" id="print-head">Ayetin Vakti • Diyanet İşleri Başkanlığı Cuma Hutbesi</div>
+
             <div class="hutbe-meta">
                 <div class="hutbe-main-title" id="hutbe-title">Yükleniyor...</div>
             </div>
 
+            <!-- Sesli / Görüntülü: yalnızca hutbeler.json'da kaynağı olan hutbelerde görünür -->
+            <div class="media-area" id="media-area"></div>
+
+            <!-- Okuma aracı -->
+            <div class="reader-bar" id="reader-bar">
+                <span class="rb-label">Okuma:</span>
+                <button class="rb-btn" id="rb-minus" onclick="setSize(-1)" title="Yazıyı küçült">A−</button>
+                <button class="rb-btn" id="rb-plus" onclick="setSize(1)" title="Yazıyı büyüt">A+</button>
+                <button class="rb-btn" id="rb-serif" onclick="toggleSerif()" title="Yazı tipi">Aa</button>
+            </div>
+
             <div class="hutbe-body" id="hutbe-content"></div>
 
+            <div class="share-row" id="share-row" style="display:none;">
+                <button class="rb-btn" onclick="shareHutbe()">📤 Paylaş</button>
+                <button class="rb-btn" onclick="copyHutbe()">📋 Kopyala</button>
+                <button class="rb-btn" onclick="whatsappHutbe()">💬 WhatsApp</button>
+                <button class="rb-btn" onclick="window.print()">🖨️ Yazdır / PDF</button>
+            </div>
+
             <div class="link-row">
-                <a href="#" target="_blank" rel="noopener" id="hutbe-audio" class="external-link-btn secondary" style="display:none;">🎧 Sesli Hutbeyi Dinle</a>
                 <a href="https://turkiye.gov.tr/diyanet-isleri-cuma-ve-bayram-hutbeleri" target="_blank" rel="noopener" id="hutbe-link" class="external-link-btn">
-                    🔗 Diyanet Orijinal Kaynak (PDF / Word)
+                    🔗 Diyanet Orijinal Kaynak (PDF / Word / Sesli)
                 </a>
             </div>
         </div>
     </div>
 </div>
+
+<div class="toast" id="toast"></div>
 
 <div class="footer">© Ayetin Vakti • <span>Huzur ve İbadet Rehberliğiniz</span></div>
 
@@ -281,6 +343,138 @@
         });
     }
 
+    // ----- Okuma aracı (boyut / yazı tipi) -----
+    const SIZES = [0.9, 0.98, 1.05, 1.15, 1.3, 1.5];
+    let sizeIdx = 2;
+    try { const v = parseInt(localStorage.getItem('hutbe_size'), 10); if (v >= 0 && v < SIZES.length) sizeIdx = v; } catch (e) {}
+    let serifOn = false;
+    try { serifOn = localStorage.getItem('hutbe_serif') === '1'; } catch (e) {}
+
+    function applyReader() {
+        const body = document.getElementById('hutbe-content');
+        body.style.setProperty('--reader-size', SIZES[sizeIdx] + 'rem');
+        body.classList.toggle('serif', serifOn);
+        document.getElementById('rb-serif').classList.toggle('on', serifOn);
+        document.getElementById('rb-minus').disabled = sizeIdx === 0;
+        document.getElementById('rb-plus').disabled = sizeIdx === SIZES.length - 1;
+    }
+    function setSize(d) {
+        sizeIdx = Math.max(0, Math.min(SIZES.length - 1, sizeIdx + d));
+        try { localStorage.setItem('hutbe_size', sizeIdx); } catch (e) {}
+        applyReader();
+    }
+    function toggleSerif() {
+        serifOn = !serifOn;
+        try { localStorage.setItem('hutbe_serif', serifOn ? '1' : '0'); } catch (e) {}
+        applyReader();
+    }
+
+    function toast(msg) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        clearTimeout(toast._t);
+        toast._t = setTimeout(() => t.classList.remove('show'), 2200);
+    }
+
+    // ----- Arapça içerik tespiti (metin hutbeler.json'dan gelir, burada metin üretilmez) -----
+    function arapcaMi(p) {
+        const harfler = p.replace(/[^\p{L}]/gu, '');
+        if (!harfler.length) return false;
+        const ar = (harfler.match(/[\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/g) || []).length;
+        return ar / harfler.length > 0.6;
+    }
+
+    // ----- Sesli / görüntülü -----
+    function youtubeId(url) {
+        try {
+            const u = new URL(url);
+            const h = u.hostname.replace(/^www\./, '');
+            if (h === 'youtu.be') return u.pathname.slice(1).split('/')[0] || null;
+            if (h === 'youtube.com' || h === 'm.youtube.com' || h === 'youtube-nocookie.com') {
+                if (u.pathname === '/watch') return u.searchParams.get('v');
+                const m = u.pathname.match(/^\/(embed|shorts|live)\/([\w-]{6,})/);
+                if (m) return m[2];
+            }
+        } catch (e) {}
+        return null;
+    }
+    const SES_DOSYASI = /\.(mp3|m4a|aac|wav|ogg)(\?.*)?$/i;
+    const VIDEO_DOSYASI = /\.(mp4|webm|m3u8)(\?.*)?$/i;
+
+    function renderMedia(hutbe) {
+        const area = document.getElementById('media-area');
+        let html = '';
+        if (hutbe.ses) {
+            html += `<div class="media-box"><div class="media-title">🎧 Sesli Hutbe</div>`;
+            if (SES_DOSYASI.test(hutbe.ses)) {
+                html += `<audio controls preload="none" src="${esc(hutbe.ses)}"></audio>`;
+            }
+            html += `<a class="external-link-btn secondary" style="margin-top:0" href="${esc(hutbe.ses)}" target="_blank" rel="noopener">🎧 Sesli Hutbeyi Dinle</a></div>`;
+        }
+        if (hutbe.video) {
+            const yt = youtubeId(hutbe.video);
+            html += `<div class="media-box"><div class="media-title">🎬 Görüntülü Hutbe${hutbe.video_baslik ? ' • ' + esc(hutbe.video_baslik) : ''}</div>`;
+            if (yt) {
+                html += `<div class="video-wrap"><iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(yt)}?rel=0" title="Görüntülü hutbe" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>`;
+            } else if (VIDEO_DOSYASI.test(hutbe.video)) {
+                html += `<div class="video-wrap"><video controls playsinline preload="metadata" src="${esc(hutbe.video)}"></video></div>`;
+            }
+            html += `<a class="external-link-btn secondary" style="margin-top:0" href="${esc(hutbe.video)}" target="_blank" rel="noopener">🎬 Görüntülü Hutbeyi İzle</a></div>`;
+        }
+        area.innerHTML = html;
+        area.style.display = html ? 'flex' : 'none';
+    }
+
+    // ----- Paylaşım metni (yalnızca JSON'daki Diyanet metninden derlenir) -----
+    function hutbeMetniDuz(h) {
+        const parcalar = [];
+        parcalar.push(h.baslik);
+        parcalar.push(fmtTarih(h.id) + ' • Cuma Hutbesi');
+        if (h.ayet) parcalar.push(h.ayet);
+        if (h.metin && h.metin.length) parcalar.push(...h.metin);
+        if (h.kaynaklar && h.kaynaklar.length) parcalar.push('Kaynaklar: ' + h.kaynaklar.join(' • '));
+        parcalar.push('Kaynak: T.C. Diyanet İşleri Başkanlığı\nAyetin Vakti: ' + location.origin + location.pathname + '#' + h.id);
+        return parcalar.join('\n\n');
+    }
+    function aktifHutbe() { return hutbelerData.find(h => h.id === aktifId); }
+    function tamMetinVarMi(h) { return h && h.metin && h.metin.length; }
+
+    async function shareHutbe() {
+        const h = aktifHutbe(); if (!tamMetinVarMi(h)) return;
+        const text = hutbeMetniDuz(h);
+        if (navigator.share) {
+            try { await navigator.share({ title: h.baslik, text }); return; }
+            catch (e) { if (e && e.name === 'AbortError') return; }
+        }
+        copyHutbe();
+    }
+    async function copyHutbe() {
+        const h = aktifHutbe(); if (!tamMetinVarMi(h)) return;
+        const text = hutbeMetniDuz(h);
+        try {
+            await navigator.clipboard.writeText(text);
+            toast('Hutbe metni kopyalandı');
+        } catch (e) {
+            const ta = document.createElement('textarea');
+            ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+            document.body.appendChild(ta); ta.select();
+            try { document.execCommand('copy'); toast('Hutbe metni kopyalandı'); }
+            catch (err) { toast('Kopyalanamadı'); }
+            ta.remove();
+        }
+    }
+    function whatsappHutbe() {
+        const h = aktifHutbe(); if (!tamMetinVarMi(h)) return;
+        let text = hutbeMetniDuz(h);
+        // Çok uzun bağlantılar bazı tarayıcılarda açılmaz; bu durumda başlık + bağlantı gönderilir
+        if (encodeURIComponent(text).length > 6000) {
+            text = h.baslik + '\n' + fmtTarih(h.id) + ' • Cuma Hutbesi\n\nTam metin: ' + location.origin + location.pathname + '#' + h.id;
+            toast('Metin uzun olduğu için bağlantı paylaşılıyor');
+        }
+        window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank', 'noopener');
+    }
+
     function loadHutbe(id) {
         const hutbe = hutbelerData.find(h => h.id === id) || hutbelerData[0];
         if (!hutbe) return;
@@ -288,17 +482,15 @@
 
         document.getElementById('hutbe-date').innerText = fmtTarih(hutbe.id);
         document.getElementById('hutbe-title').innerText = hutbe.baslik;
-
-        const audio = document.getElementById('hutbe-audio');
-        if (hutbe.ses) { audio.href = hutbe.ses; audio.style.display = 'flex'; }
-        else { audio.style.display = 'none'; }
+        renderMedia(hutbe);
 
         let html = '';
-        if (hutbe.ayet) html += `<div class="quote-box">${esc(hutbe.ayet)}</div>`;
+        if (hutbe.ayet) html += `<div class="quote-box" dir="auto">${esc(hutbe.ayet)}</div>`;
         if (hutbe.metin && hutbe.metin.length) {
             hutbe.metin.forEach(p => {
+                if (arapcaMi(p)) { html += `<div class="arabic-block" lang="ar">${esc(p)}</div>`; return; }
                 const baslikMi = p.length <= 50 && p.endsWith('!');
-                html += baslikMi ? `<p class="hutbe-heading">${esc(p)}</p>` : `<p>${esc(p)}</p>`;
+                html += baslikMi ? `<p class="hutbe-heading" dir="auto">${esc(p)}</p>` : `<p dir="auto">${esc(p)}</p>`;
             });
             if (hutbe.arapca) {
                 html += `<div class="info-box">Hutbedeki Arapça ayet ve hadis metinleri için Diyanet'in orijinal PDF'sine bakabilirsiniz.</div>`;
@@ -310,6 +502,10 @@
             html += `<div class="info-box">Bu hutbenin metni henüz eklenmedi. Aşağıdaki bağlantıdan Diyanet'in orijinal metnine ulaşabilir veya sesli olarak dinleyebilirsiniz.</div>`;
         }
         document.getElementById('hutbe-content').innerHTML = html;
+        const var_ = !!tamMetinVarMi(hutbe);
+        document.getElementById('share-row').style.display = var_ ? 'flex' : 'none';
+        document.getElementById('reader-bar').style.display = var_ ? 'flex' : 'none';
+        applyReader();
 
         renderArchiveList(hutbe.id);
         history.replaceState(null, '', '#' + hutbe.id);
