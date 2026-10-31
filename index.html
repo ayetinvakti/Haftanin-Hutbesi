@@ -376,6 +376,9 @@
         toast._t = setTimeout(() => t.classList.remove('show'), 2200);
     }
 
+    // Arapça blokları geçici olarak kapatmak gerekirse false yapın (metin Diyanet PDF'sinden gelir, burada üretilmez)
+    const ARAPCA_GOSTER = true;
+
     // ----- Arapça içerik tespiti (metin hutbeler.json'dan gelir, burada metin üretilmez) -----
     function arapcaMi(p) {
         const harfler = p.replace(/[^\p{L}]/gu, '');
@@ -462,12 +465,18 @@
         let html = '';
         if (hutbe.ayet) html += `<div class="quote-box" dir="auto">${esc(hutbe.ayet)}</div>`;
         if (hutbe.metin && hutbe.metin.length) {
+            let arapcaCizildi = false;
             hutbe.metin.forEach(p => {
-                if (arapcaMi(p)) { html += `<div class="arabic-block" lang="ar">${esc(p)}</div>`; return; }
+                if (arapcaMi(p)) {
+                    if (!ARAPCA_GOSTER) return;
+                    arapcaCizildi = true;
+                    html += `<div class="arabic-block" lang="ar" dir="rtl">${esc(p)}</div>`;
+                    return;
+                }
                 const baslikMi = p.length <= 50 && p.endsWith('!');
                 html += baslikMi ? `<p class="hutbe-heading" dir="auto">${esc(p)}</p>` : `<p dir="auto">${esc(p)}</p>`;
             });
-            if (hutbe.arapca) {
+            if (hutbe.arapca && !arapcaCizildi) {
                 html += `<div class="info-box">Hutbedeki Arapça ayet ve hadis metinleri için Diyanet'in orijinal PDF'sine bakabilirsiniz.</div>`;
             }
             if (hutbe.kaynaklar && hutbe.kaynaklar.length) {
