@@ -202,8 +202,7 @@
         .media-box { background: var(--btn-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
         .media-box .media-title { font-size: 0.85rem; font-weight: 700; color: var(--accent-color); }
         .media-box audio { width: 100%; }
-        .video-wrap { position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; background: #000; }
-        .video-wrap iframe, .video-wrap video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+        .media-box .external-link-btn { flex: 0 0 auto; margin-top: 0; padding: 10px 12px; font-size: 0.85rem; }
 
         /* ===== PAYLAŞ ===== */
         .share-row { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -264,7 +263,7 @@
                 <div class="hutbe-main-title" id="hutbe-title">Yükleniyor...</div>
             </div>
 
-            <!-- Sesli / Görüntülü: yalnızca hutbeler.json'da kaynağı olan hutbelerde görünür -->
+            <!-- Sesli hutbe: yalnızca hutbeler.json'da ses kaynağı olan hutbelerde görünür -->
             <div class="media-area" id="media-area"></div>
 
             <!-- Okuma aracı -->
@@ -386,21 +385,7 @@
     }
 
     // ----- Sesli / görüntülü -----
-    function youtubeId(url) {
-        try {
-            const u = new URL(url);
-            const h = u.hostname.replace(/^www\./, '');
-            if (h === 'youtu.be') return u.pathname.slice(1).split('/')[0] || null;
-            if (h === 'youtube.com' || h === 'm.youtube.com' || h === 'youtube-nocookie.com') {
-                if (u.pathname === '/watch') return u.searchParams.get('v');
-                const m = u.pathname.match(/^\/(embed|shorts|live)\/([\w-]{6,})/);
-                if (m) return m[2];
-            }
-        } catch (e) {}
-        return null;
-    }
     const SES_DOSYASI = /\.(mp3|m4a|aac|wav|ogg)(\?.*)?$/i;
-    const VIDEO_DOSYASI = /\.(mp4|webm|m3u8)(\?.*)?$/i;
 
     function renderMedia(hutbe) {
         const area = document.getElementById('media-area');
@@ -410,17 +395,7 @@
             if (SES_DOSYASI.test(hutbe.ses)) {
                 html += `<audio controls preload="none" src="${esc(hutbe.ses)}"></audio>`;
             }
-            html += `<a class="external-link-btn secondary" style="margin-top:0" href="${esc(hutbe.ses)}" target="_blank" rel="noopener">🎧 Sesli Hutbeyi Dinle</a></div>`;
-        }
-        if (hutbe.video) {
-            const yt = youtubeId(hutbe.video);
-            html += `<div class="media-box"><div class="media-title">🎬 Görüntülü Hutbe${hutbe.video_baslik ? ' • ' + esc(hutbe.video_baslik) : ''}</div>`;
-            if (yt) {
-                html += `<div class="video-wrap"><iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(yt)}?rel=0" title="Görüntülü hutbe" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>`;
-            } else if (VIDEO_DOSYASI.test(hutbe.video)) {
-                html += `<div class="video-wrap"><video controls playsinline preload="metadata" src="${esc(hutbe.video)}"></video></div>`;
-            }
-            html += `<a class="external-link-btn secondary" style="margin-top:0" href="${esc(hutbe.video)}" target="_blank" rel="noopener">🎬 Görüntülü Hutbeyi İzle</a></div>`;
+            html += `<a class="external-link-btn secondary" href="${esc(hutbe.ses)}" target="_blank" rel="noopener">${SES_DOSYASI.test(hutbe.ses) ? '↗ Ses dosyasını ayrı sekmede aç' : '🎧 Sesli Hutbeyi Dinle'}</a></div>`;
         }
         area.innerHTML = html;
         area.style.display = html ? 'flex' : 'none';
