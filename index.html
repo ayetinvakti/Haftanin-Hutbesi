@@ -148,8 +148,8 @@
         @media (hover: hover) { .circle-btn:hover { border-color: var(--accent-color); color: var(--accent-color); background: var(--btn-hover); } }
 
         .nav-left-group { display: flex; align-items: center; gap: 8px; }
-        /* Başlık: üst çubuğun altında, ortalı ayrı satır */
-        .page-head { display: flex; align-items: center; justify-content: center; padding: 0 8px; }
+        /* Başlık görsel olarak gizli (ekran okuyucu ve SEO için h1 kalır) */
+        .page-head { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
         .app-title { font-size: clamp(1.05rem, 5vw, 1.25rem); font-weight: 700; color: var(--accent-color); text-align: center; }
 
         .content-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 18px; padding: 22px; display: flex; flex-direction: column; gap: 16px; box-shadow: var(--shadow); transition: 0.3s; }
