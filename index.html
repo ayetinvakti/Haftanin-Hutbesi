@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
+    <script src="https://ayetinvakti.github.io/finish.js?v=4"></script>
     <script src="https://ayetinvakti.github.io/menu.js" defer></script>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
@@ -231,33 +232,33 @@
 
 <div class="main-wrapper sidebar-closed" id="main-wrapper">
     <!-- SOL ARŞİV MENÜSÜ -->
-    <div class="sidebar-card" id="sidebar-card">
+    <div class="sidebar-card fin-card" id="sidebar-card">
         <div class="sidebar-header">
             <div class="sidebar-title">📚 Hutbe Arşivi</div>
-            <button class="collapse-btn" onclick="toggleSidebar()" title="Menüyü Gizle">✕</button>
+            <button class="collapse-btn fin-btn" onclick="toggleSidebar()" title="Menüyü Gizle">✕</button>
         </div>
         <div class="archive-list" id="archive-list"></div>
     </div>
 
     <!-- SAĞ ANA İÇERİK ALANI -->
     <div class="container">
-        <header class="navbar">
+        <header class="navbar fin-card">
             <div class="nav-left-group">
-                <a href="https://ayetinvakti.github.io/" class="circle-btn" title="Ana Sayfaya Dön" aria-label="Ana Sayfaya Dön">←</a>
-                <button class="circle-btn" data-drawer-toggle aria-label="Menü" aria-controls="avmDrawer" title="Menü">☰</button>
+                <a href="https://ayetinvakti.github.io/" class="circle-btn fin-btn" title="Ana Sayfaya Dön" aria-label="Ana Sayfaya Dön">←</a>
+                <button class="circle-btn fin-btn" data-drawer-toggle aria-label="Menü" aria-controls="avmDrawer" title="Menü">☰</button>
             </div>
-            <button class="circle-btn" onclick="toggleTheme()" id="theme-btn" title="Tema Değiştir" aria-label="Tema Değiştir">🌙</button>
+            <button class="circle-btn fin-btn" onclick="toggleTheme()" id="theme-btn" title="Tema Değiştir" aria-label="Tema Değiştir">🌙</button>
         </header>
 
         <div class="page-head">
             <h1 class="app-title">Haftanın Hutbesi</h1>
         </div>
 
-        <div class="content-card">
+        <div class="content-card fin-card">
             <div class="card-header-flex">
                 <div class="card-title">
                     📜 Cuma Hutbesi
-                    <button class="show-archive-btn" id="show-archive-inline" onclick="toggleSidebar()" style="display:inline-block;">📚 Arşivi Göster</button>
+                    <button class="show-archive-btn fin-btn" id="show-archive-inline" onclick="toggleSidebar()" style="display:inline-block;">📚 Arşivi Göster</button>
                 </div>
                 <div class="date-badge" id="hutbe-date">Yükleniyor...</div>
             </div>
@@ -289,7 +290,7 @@
             </div>
 
             <div class="link-row">
-                <a href="https://turkiye.gov.tr/diyanet-isleri-cuma-ve-bayram-hutbeleri" target="_blank" rel="noopener" id="hutbe-link" class="external-link-btn">
+                <a href="https://turkiye.gov.tr/diyanet-isleri-cuma-ve-bayram-hutbeleri" target="_blank" rel="noopener" id="hutbe-link" class="external-link-btn fin-btn">
                     🔗 Diyanet Orijinal Kaynak (PDF / Word / Sesli)
                 </a>
             </div>
@@ -403,7 +404,7 @@
             if (SES_DOSYASI.test(hutbe.ses)) {
                 html += `<audio controls preload="none" src="${esc(hutbe.ses)}"></audio>`;
             }
-            html += `<a class="external-link-btn secondary" href="${esc(hutbe.ses)}" target="_blank" rel="noopener">${SES_DOSYASI.test(hutbe.ses) ? '↗ Ses dosyasını ayrı sekmede aç' : '🎧 Sesli Hutbeyi Dinle'}</a></div>`;
+            html += `<a class="external-link-btn secondary fin-btn" href="${esc(hutbe.ses)}" target="_blank" rel="noopener">${SES_DOSYASI.test(hutbe.ses) ? '↗ Ses dosyasını ayrı sekmede aç' : '🎧 Sesli Hutbeyi Dinle'}</a></div>`;
         }
         area.innerHTML = html;
         area.style.display = html ? 'flex' : 'none';
